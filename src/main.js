@@ -1,43 +1,42 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from "vue";
+import App from "./App.vue";
 
 //ElementUI中全局引入
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 //引入路由器
-import router from './router'
+import router from "./router";
 // 引入vux
-import store from './store'
+import store from "./store";
 //引入VueRouter
-import VueRouter from 'vue-router'
+import VueRouter from "vue-router";
 // 引入样式
-import './assets/less/index.less'
+import "./assets/less/index.less";
 // axios
-import http from 'axios'
+import http from "axios";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 //使用ElementUI
-Vue.use(ElementUI)
-Vue.use(VueRouter)
-Vue.prototype.$http = http
+Vue.use(ElementUI);
+Vue.use(VueRouter);
+Vue.prototype.$http = http;
 
-//push 
-const VueRouterPush = VueRouter.prototype.push
+//push
+const VueRouterPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(to) {
-  return VueRouterPush.call(this, to).catch(err => err)
-}
+  return VueRouterPush.call(this, to).catch((err) => err);
+};
 
 //replace
-const VueRouterReplace = VueRouter.prototype.replace
+const VueRouterReplace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function replace(to) {
-  return VueRouterReplace.call(this, to).catch(err => err)
-}
-
+  return VueRouterReplace.call(this, to).catch((err) => err);
+};
 
 new Vue({
-  el: '#app',
+  el: "#app",
   store,
   router,
-  render: h => h(App)
-})
+  render: (h) => h(App),
+});

@@ -28,6 +28,10 @@
           <el-input v-model="ruleForm.bank"></el-input>
         </el-form-item>
 
+        <el-form-item label="所属专业" prop="bank">
+          <el-input v-model="ruleForm.major"></el-input>
+        </el-form-item>
+
         <el-form-item label="题目内容" prop="content">
           <el-input
             type="textarea"
@@ -115,6 +119,7 @@ export default {
       ruleForm: {
         type: "",
         bank: "",
+        major: "",
         content: "",
         // 答案数组
         answerList: [],
@@ -141,6 +146,7 @@ export default {
           { required: true, message: "请选择一个题目类型", trigger: "change" },
         ],
         bank: [{ required: true, message: "请选择一个题库", trigger: "blur" }],
+        major: [{ required: true, message: "请选择一个专业", trigger: "blur" }],
       },
     };
   },

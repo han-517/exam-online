@@ -25,6 +25,7 @@
         <el-table-column prop="type" label="题目类型"> </el-table-column>
         <el-table-column prop="content" label="题目内容"> </el-table-column>
         <el-table-column prop="major" label="专业"> </el-table-column>
+        <el-table-column prop="bank" label="所属题库"> </el-table-column>
         <el-table-column prop="createtime" label="创建时间"> </el-table-column>
         <el-table-column label="操作" min-width="100px">
           <el-button size="mini" type="primary" @click="updateQues(item)">
@@ -63,21 +64,27 @@ export default {
       // 所有题库信息表单，这里是写死的，还需要从数据库中读取
       tableData: [
         {
+          id: "",
           type: "单选题",
           content: "树上有几只鸟",
           major: "软件工程",
+          bank: "默认题库",
           createtime: "2016-05-02",
         },
         {
+          id: "",
           type: "单选题",
           content: "树上有几只鸟",
           major: "软件工程",
+          bank: "默认题库",
           createtime: "2016-05-02",
         },
         {
+          id: "",
           type: "单选题",
           content: "树上有几只鸟",
           major: "软件工程",
+          bank: "默认题库",
           createtime: "2016-05-02",
         },
       ],

@@ -1,6 +1,8 @@
 import VueRouter from "vue-router";
 import Home from "../views/home";
 import User from "../views/user";
+import Login from "../views/login/Login.vue";
+import Register from "../views/login/Register.vue";
 import Paper from "../views/paper/index";
 import Bank from "../views/paper/Bank.vue";
 import Question from "../views/paper/questions/Question.vue";
@@ -14,17 +16,27 @@ import EditMyInfo from "../views/info/EditMyInfo";
 import { onUpdated } from "vue";
 
 export default new VueRouter({
-  mode: "history",
+  mode: "hash",
   routes: [
     // 空路径直接跳转到home，
-    {
-      path: "/",
-      redirect: "/home",
-    },
+    // {
+    //   path: "/",
+    //   redirect: "/home",
+    // },
     {
       path: "/home",
       name: "home",
       component: Home,
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login,
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: Register,
     },
     {
       path: "/user",
