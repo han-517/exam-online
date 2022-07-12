@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import Aside from ".././components/Aside.vue";
-import Header from ".././components/Header.vue";
-import Tag from ".././components/Tag.vue";
+import Aside from "@/components/client/Aside.vue";
+import Header from "@/components/Header.vue";
+import Tag from "@/components/Tag.vue";
 export default {
   name: "Manager",
   components: {

@@ -16,9 +16,7 @@
       <transition name="teacher">
         <div class="teacher-box" v-if="!isStudent">
           <span class="teacbtn">
-            <el-button round @click="isStudent = !isStudent">{{
-              Msg
-            }}</el-button>
+            <el-button round @click="isStudent">{{ Msg }}</el-button>
           </span>
           <span class="teacher">
             <teacher-login />
@@ -30,8 +28,8 @@
 </template>
 
 <script>
-import StudentLogin from "../../components/login/StudentLogin.vue";
-import TeacherLogin from "../../components/login/TeacherLogin.vue";
+import StudentLogin from "@/components/login/ULogin.vue";
+import TeacherLogin from "@/components/login/MLogin.vue";
 export default {
   name: "Login",
   components: { StudentLogin, TeacherLogin },
@@ -43,13 +41,18 @@ export default {
   computed: {
     Msg() {
       if (this.isStudent) {
-        return "教师身份登录";
+        return "管理员身份登录";
       } else {
-        return "学生身份登录";
+        return "用户身份登录";
       }
     },
   },
-  methods: {},
+  methods: {
+    isStudent() {
+      this.isStudent = !this.isStudent;
+      this.$store.commit("isStudent", this.isStudent);
+    },
+  },
 };
 </script>
 

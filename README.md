@@ -31,3 +31,6 @@
 5. 下载vuex
 
 6. yarn add axios
+
+
+

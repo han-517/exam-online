@@ -26,9 +26,15 @@
           <img class="user" :src="userImg" alt="" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <router-link :to="{ name: 'myinfo' }">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-          </router-link>
+          <template>
+            <router-link v-if="isStudent == false" :to="{ name: 'myinfo' }">
+              <el-dropdown-item>个人中心</el-dropdown-item>
+            </router-link>
+            <router-link v-else :to="{ name: 'myinfo' }">
+              <el-dropdown-item>个人中心</el-dropdown-item>
+            </router-link>
+          </template>
+
           <router-link :to="{ name: 'password' }">
             <el-dropdown-item>退出</el-dropdown-item>
           </router-link>
@@ -44,7 +50,8 @@ export default {
   name: "",
   data() {
     return {
-      userImg: require("../assets/images/user.png"),
+      isStudent: this.$store.state.isStudent,
+      userImg: require("@/assets/images/user.png"),
     };
   },
   methods: {

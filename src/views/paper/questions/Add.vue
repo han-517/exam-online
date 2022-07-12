@@ -28,7 +28,7 @@
           <el-input v-model="ruleForm.bank"></el-input>
         </el-form-item>
 
-        <el-form-item label="所属专业" prop="bank">
+        <el-form-item label="所属专业" prop="major">
           <el-input v-model="ruleForm.major"></el-input>
         </el-form-item>
 
@@ -96,17 +96,9 @@
       </div>
 
       <div style="margin-top: 20px">
-        <el-button type="primary" @click="submitForm">保存</el-button>
+        <el-button type="primary" @click="submitForm">确定生成</el-button>
         <el-button type="info" @click="onCancel">返回</el-button>
       </div>
-
-      <!-- <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
-        >
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
-      </el-form-item>
-    </el-form> -->
     </el-form>
   </div>
 </template>
@@ -214,10 +206,6 @@ export default {
       this.$router.push({ name: "question" });
     },
 
-    // // 重置
-    // resetForm(formName) {
-    //   this.$refs[formName].resetFields();
-    // },
   },
 };
 </script>

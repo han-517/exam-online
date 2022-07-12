@@ -57,16 +57,6 @@
           </el-button>
         </el-table-column>
       </el-table>
-
-      <!-- 这里是分页操作，还不太完整，先不用管 -->
-      <!-- <el-pagination
-        class="pager"
-        layout="prev,pager,next"
-        :total="config.total"
-        :current-page.sync="config.page"
-        @current-change="changePage"
-        :page-size="28"
-      ></el-pagination> -->
     </div>
   </div>
 </template>

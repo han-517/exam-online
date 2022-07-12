@@ -1,22 +1,19 @@
 const { defineConfig } = require("@vue/cli-service");
 
 const path = require("path");
-
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
+  chainWebpack: (config) => {
+    config.resolve.alias.set("@", resolve("src"));
+  },
   //开启代理服务器
   devServer: {
     proxy: "http://47.113.225.80:8080/",
-  },
-
-  // 路径设置
-  chainWebpack: (config) => {
-    config.resolve.alias.set("@", resolve("src"));
-    //格式.set('', resolve(''))
   },
 
   //build配置

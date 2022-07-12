@@ -11,51 +11,43 @@
     active-text-color="#ffd04b"
   >
     <h3 style="height: 50px">
-      {{ isCollapse ? "管理" : "在线考试系统-java" }}
+      {{ isCollapse ? "客户" : "客户端系统-java" }}
     </h3>
     <!-- 只有一级目录的 -->
     <el-menu-item @click="clickMenu(menu[0])" index="1">
       <i class="el-icon-s-home"></i>
       <span slot="title">首页</span>
     </el-menu-item>
-    <el-menu-item @click="clickMenu(menu[1])" index="2">
-      <i class="el-icon-s-promotion"></i>
-      <span>用户管理</span>
-    </el-menu-item>
     <!-- 含有二级目录 -->
-    <el-submenu index="3">
+    <el-submenu index="2">
       <template slot="title">
         <i class="el-icon-s-help"></i>
-        <span>试题中心</span>
+        <span>试题管理</span>
       </template>
-      <el-menu-item @click="clickMenu(menu[2].children[0])" index="3-1">
-        <i class="el-icon-folder-opened"></i>
-        题库管理
-      </el-menu-item>
-      <el-menu-item @click="clickMenu(menu[2].children[1])" index="3-2">
+      <el-menu-item @click="clickMenu(menu[1].children[0])" index="2-1">
         <i class="el-icon-tickets"></i>
-        试题管理
+        题目中心
       </el-menu-item>
-      <el-menu-item @click="clickMenu(menu[2].children[2])" index="3-3">
+      <el-menu-item @click="clickMenu(menu[1].children[1])" index="2-2">
         <i class="el-icon-s-data"></i>
         考试管理
       </el-menu-item>
     </el-submenu>
 
-    <el-submenu index="4">
+    <el-submenu index="3">
       <template slot="title">
         <i class="el-icon-user"></i>
         <span>个人中心</span>
       </template>
-      <el-menu-item @click="clickMenu(menu[3].children[0])" index="4-1">
+      <el-menu-item @click="clickMenu(menu[2].children[0])" index="3-1">
         <i class="el-icon-postcard"></i>
         个人信息
       </el-menu-item>
-      <el-menu-item @click="clickMenu(menu[3].children[1])" index="4-2">
+      <el-menu-item @click="clickMenu(menu[2].children[1])" index="3-2">
         <i class="el-icon-edit"></i>
         编辑个人信息
       </el-menu-item>
-      <el-menu-item @click="clickMenu(menu[3].children[2])" index="4-3">
+      <el-menu-item @click="clickMenu(menu[2].children[2])" index="3-3">
         <i class="el-icon-edit"></i>
         修改密码
       </el-menu-item>
@@ -69,31 +61,21 @@ export default {
     return {
       menu: [
         {
-          path: "/home",
-          name: "home",
+          path: "/client/home",
+          name: "uhome",
           label: "首页",
         },
         {
-          path: "/user",
-          name: "user",
-          label: "用户管理",
-        },
-        {
-          label: "试题中心",
+          label: "试题管理",
           children: [
             {
-              path: "/paper/bank",
-              name: "bank",
-              label: "题库管理",
+              path: "/client/paper/question",
+              name: "uquestion",
+              label: "题目中心",
             },
             {
-              path: "/paper/question",
-              name: "question",
-              label: "题库管理",
-            },
-            {
-              path: "/paper/exam",
-              name: "exam",
+              path: "/client/paper/exam",
+              name: "uexam",
               label: "考试管理",
             },
           ],
@@ -102,18 +84,18 @@ export default {
           label: "个人中心",
           children: [
             {
-              path: "/info/myinfo",
-              name: "myinfo",
+              path: "/client/info/myinfo",
+              name: "umyinfo",
               label: "个人信息",
             },
             {
-              path: "/info/editmyinfo",
-              name: "editmyinfo",
+              path: "/client/info/editmyinfo",
+              name: "ueditmyinfo",
               label: "编辑个人信息",
             },
             {
-              path: "/info/password",
-              name: "password",
+              path: "/client/info/password",
+              name: "upassword",
               label: "修改密码",
             },
           ],

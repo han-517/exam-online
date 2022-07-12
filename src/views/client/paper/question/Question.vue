@@ -2,11 +2,6 @@
   <div class="manage">
     <!-- 对话框 -->
     <div class="manage-header">
-      <el-button type="primary" @click="addQues(item)">
-        <i class="el-icon-plus"></i>
-        <span>新增</span>
-      </el-button>
-
       <el-form :inline="true">
         <el-form-item>
           <el-input placeholder="搜索" v-model="searchForm.keyword"> </el-input>
@@ -28,11 +23,8 @@
         <el-table-column prop="bank" label="所属题库"> </el-table-column>
         <el-table-column prop="createtime" label="创建时间"> </el-table-column>
         <el-table-column label="操作" min-width="100px">
-          <el-button size="mini" type="primary" @click="updateQues(item)">
-            更 新
-          </el-button>
-          <el-button size="mini" type="danger" @click="delQues">
-            删 除
+          <el-button size="mini" type="primary" @click="detailQues(item)">
+            详 细
           </el-button>
         </el-table-column>
       </el-table>
@@ -65,9 +57,9 @@ export default {
       tableData: [
         {
           id: "",
-          type: "单选题",
+          type: "客户端单选题",
           content: "树上有几只鸟",
-          major: "软件工程nua",
+          major: "软件工程",
           bank: "默认题库",
           createtime: "2016-05-02",
         },
@@ -99,38 +91,22 @@ export default {
   methods: {
     // 确认提交处理函数，
     confirm() {},
-    // 添加题目
-    addQues(item) {
-      this.$router.push({
-        name: "add",
-      });
-      item = {
-        path: "/question/add",
-        name: "add",
-        label: "新增题目",
-      };
 
-      this.$store.commit("selectMenu", item);
-      console.log("添加");
-    },
-
-    // 更新题目
-    updateQues(item) {
+    // 查看题目详情
+    detailQues(item) {
       this.$router.push({
-        name: "update",
+        name: "detail",
       });
 
       item = {
-        path: "/question/update",
-        name: "update",
-        label: "更新题目",
+        path: "/client/paper/question/detail",
+        name: "detail",
+        label: "题目详细",
       };
 
       this.$store.commit("selectMenu", item);
       console.log(item.name);
     },
-    // 删除题目
-    delQues() {},
     // 搜索用户
     getList() {},
     // 分页操作
