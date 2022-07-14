@@ -59,7 +59,7 @@ export default {
     refreshCode() {
       // 切换验证码
       let vcode = document.getElementById("vcode2");
-      vcode.src = "examination/acheckCodeServlet?time=" + new Date().getTime();
+      vcode.src = "examination/checkCodeServlet?time=" + new Date().getTime();
     },
     mLogin() {
       this.$router.push({
