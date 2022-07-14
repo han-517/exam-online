@@ -32,5 +32,41 @@
 
 6. yarn add axios
 
+```js
+dataSource: {
+      type: Object,
+      default: () => {
+        return {
+          //试卷ID
+          paperId: "",
+          //试卷名称
+          paperName: "",
+          //题目集合
+          list: [
+            {
+              //题目类型 1.单选题 2.多选题 3.判断题
+              type: null,
+              //题号
+              no: null,
+              //题目
+              subject: "",
+              //答案集合
+              answers: [
+                {
+                  //答案序号
+                  no: "",
+                  //答案
+                  answer: "",
+                },
+              ],
+            },
+          ],
+        };
+      },
+    },
+```
+
+
+
 
 

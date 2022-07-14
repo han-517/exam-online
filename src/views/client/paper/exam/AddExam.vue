@@ -91,11 +91,13 @@ export default {
   },
   methods: {
     // 提交按钮
-    submitForm() {},
+    submitForm() {
+      this.$router.push({ name: "examCard" });
+    },
 
     // 取消保存，返回按钮
     onCancel() {
-      this.$router.push({ name: "question" });
+      this.$router.push({ name: "uquestion" });
     },
   },
 };

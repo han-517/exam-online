@@ -22,6 +22,7 @@ import uQuestion from "@/views/client/paper/question/Question";
 import uDetail from "@/views/client/paper/question/Detail";
 import uExam from "@/views/client/paper/exam/Exam";
 import addExam from "@/views/client/paper/exam/AddExam";
+import examCard from "@/views/client/paper/exam/ExamCard";
 import uMyInfo from "@/views/client/info/MyInfo";
 import uPassword from "@/views/client/info/Password";
 import uEditMyInfo from "@/views/client/info/EditMyInfo";
@@ -159,6 +160,11 @@ export default new VueRouter({
               path: "addexam",
               name: "addexam",
               component: addExam,
+            },
+            {
+              path: "examcard",
+              name: "examCard",
+              component: examCard,
             },
           ],
         },
