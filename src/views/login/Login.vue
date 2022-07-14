@@ -7,16 +7,14 @@
             <student-login />
           </span>
           <span class="stubtn">
-            <el-button round @click="isStudent = !isStudent">{{
-              Msg
-            }}</el-button>
+            <el-button round @click="isAStudnet">{{ Msg }}</el-button>
           </span>
         </div>
       </transition>
       <transition name="teacher">
         <div class="teacher-box" v-if="!isStudent">
           <span class="teacbtn">
-            <el-button round @click="isStudent = !isStudent">{{ Msg }}</el-button>
+            <el-button round @click="isAStudnet">{{ Msg }}</el-button>
           </span>
           <span class="teacher">
             <teacher-login />
@@ -46,7 +44,13 @@ export default {
         return "用户身份登录";
       }
     },
-  }
+  },
+  methods: {
+    isAStudnet() {
+      this.isStudent = !this.isStudent;
+      this.$store.commit("isStudent", this.isStudent);
+    },
+  },
 };
 </script>
 

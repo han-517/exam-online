@@ -75,14 +75,14 @@ export default {
           `examination/studentLoginServlet?vertify=${this.loginForm.checkcode}&username=${this.loginForm.username}&password=${this.loginForm.password}`
         )
         .then((response) => {
-          this.$router.push({ name: "home" });
+          this.$router.push({ name: "uhome" });
           console.log(response);
         })
         .catch((error) => {
           console.log(error);
         });
       this.$router.push({
-        name: "home",
+        name: "uhome",
       });
     },
     register() {

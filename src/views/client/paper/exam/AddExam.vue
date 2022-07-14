@@ -48,10 +48,10 @@
             <el-checkbox label="通信工程" name="majors" border></el-checkbox>
             <el-checkbox label="网络安全" name="majors" border></el-checkbox>
             <br />
-            <el-checkbox label="航空航天" name="majors" border></el-checkbox>
-            <el-checkbox label="航空航天" name="majors" border></el-checkbox>
-            <el-checkbox label="航空航天" name="majors" border></el-checkbox>
-            <el-checkbox label="航空航天" name="majors" border></el-checkbox>
+            <el-checkbox label="人工智能" name="majors" border></el-checkbox>
+            <el-checkbox label="电子科学" name="majors" border></el-checkbox>
+            <el-checkbox label="材料化学" name="majors" border></el-checkbox>
+            <el-checkbox label="行政管理" name="majors" border></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-card>
@@ -101,8 +101,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .el-input {
   width: 100px;
 }
-</style>
+</style>>

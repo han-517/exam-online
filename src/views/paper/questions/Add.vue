@@ -205,12 +205,11 @@ export default {
     onCancel() {
       this.$router.push({ name: "question" });
     },
-
   },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .el-input {
   width: 350px;
 }

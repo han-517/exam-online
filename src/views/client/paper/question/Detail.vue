@@ -110,7 +110,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .el-input {
   width: 350px;
 }

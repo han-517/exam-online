@@ -6,7 +6,7 @@
         <div class="register-box">
           <el-input
             class="userid"
-            placeholder="请输入学号"
+            placeholder="请输入账号"
             v-model="Form.id"
             clearable
           >
