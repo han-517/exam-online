@@ -44,7 +44,7 @@
     </el-dialog>
 
     <div class="table">
-      <el-table :data="BankList" height="90%" stripe>
+      <el-table :data="banklist" height="90%" stripe>
         <el-table-column prop="name" label="题库名称"> </el-table-column>
         <el-table-column prop="remark" label="备注信息"> </el-table-column>
         <el-table-column prop="createTime" label="创建时间"> </el-table-column>
@@ -73,16 +73,17 @@ export default {
       isShow: false,
       // 操作用户信息表单，包括新增，编辑，共用一个对象，分别在addUser() 和editUser() 中实现赋值
       operateForm: {
+        id: "",
         name: "",
         remark: "",
-        createtime: "",
+        createTime: "",
       },
       // 搜索框信息
       searchForm: {
         // keyword,
         keyword: "",
       },
-      BankList: [],
+      banklist: [],
       // 分页有关参数，不用管
       config: {
         page: 1,
@@ -93,50 +94,82 @@ export default {
   methods: {
     // 确认提交处理函数，
     confirm() {
-      // if (this.operateType === "edit") {
-      //   this.$http.post("user/edit", this.operateForm).then((res) => {
-      //     this.isShow = false;
-      //   });
-      // } else {
-      //   this.$http.post("user/add", this.operateForm).then((res) => {
-      //     this.isShow = false;
-      //   });
-      // }
+      if (this.operateType === "edit") {
+        axios.get(`examination/updateBankServlet?name=${this.operateForm.name}&remark=${this.operateForm.remark}&id=${this.operateForm.id}`)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        axios.get(`examination/addBankServlet?name=${this.operateForm.name}&remark=${this.operateForm.remark}&createTime=${this.operateForm.createTime}`)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+      this.isShow = false
+      this.BankList()
+      location.reload()
     },
     addBank() {
       this.isShow = true;
       this.operateType = "add";
+      var time = new Date()
       this.operateForm = {
         name: "",
         remark: "",
-      };
+        createTime: `${time.getFullYear()}-${time.getMonth()}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}`
+      }
     },
-    // 编辑用户信息，可能需要传参，从数据库中读取原有数据信息并将其加在里面，在修改
-    editBank() {
+    // 编辑题库信息，可能需要传参，从数据库中读取原有数据信息并将其加在里面，在修改
+    editBank(row) {
       this.isShow = true;
       this.operateType = "edit";
       this.operateForm = {
-        name: "原有",
-        remark: "原有备注",
-        createtime: "2016-05-02",
-      };
+        id: row.id,
+        name: row.name,
+        remark: row.remark,
+        createTime: row.createTime,
+      }
     },
-    delBank() {},
-    // 搜索用户
-    getList() {},
-    // 分页操作
-    changePage() {},
-  },
-  computed: {
-  },
-  mounted(){
-    axios.get('examination/getAllBankNameServlet')
+    delBank(row) {
+      // this.operateForm = {
+      //   id: row.id,
+      //   name: row.name,
+      //   remark: row.remark,
+      //   createTime: row.createTime,
+      // }
+      axios.get(`examination/deleteBankServlet?name=${row.name}`)
       .then(response => {
-        this.BankList = response.data
+        console.log(response.data)
       })
       .catch(err => {
         console.log(err)
       })
+      location.reload()
+    },
+    // 搜索用户
+    getList() {},
+    // 分页操作
+    changePage() {},
+    BankList(){
+      axios.get('examination/getAllBankNameServlet')
+      .then(response => {
+        this.banklist = response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  computed: {
+  },
+  mounted(){
+    this.BankList()
   }
 };
 </script>

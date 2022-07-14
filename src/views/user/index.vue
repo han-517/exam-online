@@ -172,7 +172,7 @@ export default {
         name: row.name,
         gender: row.gender,
         email: row.email,
-      };
+      }
     },
     delUser(row) {
       axios.get(`examination/deleteStuServlet?studentId=${row.studentId}`)
