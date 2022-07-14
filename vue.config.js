@@ -11,9 +11,16 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     config.resolve.alias.set("@", resolve("src"));
   },
+
   //开启代理服务器
   devServer: {
-    proxy: "http://47.113.225.80:8080/",
+    proxy: {
+      'examination': {// 匹配所有以 '/examination'开头的请求路径
+        target: 'http://47.113.225.80:8080/',// 代理目标的基础路径
+        changeOrigin: true,
+        // pathRewrite: {'^/examination': ''}
+      }
+    }
   },
 
   //build配置

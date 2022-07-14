@@ -44,17 +44,19 @@
     </el-dialog>
 
     <div class="table">
-      <el-table :data="tableData" height="90%" stripe>
+      <el-table :data="BankList" height="90%" stripe>
         <el-table-column prop="name" label="题库名称"> </el-table-column>
         <el-table-column prop="remark" label="备注信息"> </el-table-column>
-        <el-table-column prop="createtime" label="创建时间"> </el-table-column>
+        <el-table-column prop="createTime" label="创建时间"> </el-table-column>
         <el-table-column label="操作" min-width="100px">
-          <el-button size="mini" type="primary" @click="editBank">
-            编 辑
-          </el-button>
-          <el-button size="mini" type="danger" @click="delBank">
-            删 除
-          </el-button>
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="editBank(scope.row)">
+              编 辑
+            </el-button>
+            <el-button size="mini" type="danger" @click="delBank(scope.row)">
+              删 除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -62,6 +64,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "bank",
   data() {
@@ -79,15 +82,7 @@ export default {
         // keyword,
         keyword: "",
       },
-      // 所有题库信息表单，这里是写死的，还需要从数据库中读取
-      tableData: [
-        {
-          name: "默认题库",
-          remark: "无备注",
-          createtime: "2016-05-02",
-        },
-      ],
-
+      BankList: [],
       // 分页有关参数，不用管
       config: {
         page: 1,
@@ -132,6 +127,17 @@ export default {
     // 分页操作
     changePage() {},
   },
+  computed: {
+  },
+  mounted(){
+    axios.get('examination/getAllBankNameServlet')
+      .then(response => {
+        this.BankList = response.data
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 };
 </script>
 
@@ -140,5 +146,13 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.table {
+  height: 100%;
+}
+.manage {
+  margin: 0;
+  padding: 0;
+  height: 97%;
 }
 </style>

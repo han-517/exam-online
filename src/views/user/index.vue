@@ -30,6 +30,7 @@
           <el-input
             placeholder="请输入账号"
             v-model="operateForm.id"
+            disabled
           ></el-input>
         </el-form-item>
         <el-form-item label="姓名">
@@ -41,10 +42,6 @@
             <el-option label="男" value="0"></el-option>
             <el-option label="女" value="1"></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="专业">
-          <el-input placeholder="请输入专业" v-model="operateForm.major">
-          </el-input>
         </el-form-item>
         <el-form-item label="邮箱">
           <el-input placeholder="请输入邮箱" v-model="operateForm.email">
@@ -70,18 +67,20 @@
 
     <div class="table">
       <el-table :data="tableData" height="90%" stripe>
-        <el-table-column prop="id" label="账号"> </el-table-column>
+        <el-table-column prop="studentId" label="账号"> </el-table-column>
         <el-table-column prop="name" label="姓名"> </el-table-column>
         <el-table-column prop="gender" label="性别"> </el-table-column>
-        <el-table-column prop="major" label="专业"> </el-table-column>
         <el-table-column prop="email" label="邮箱"> </el-table-column>
         <el-table-column label="操作" min-width="100px">
-          <el-button size="mini" type="primary" plain @click="editUser">
-            编 辑
-          </el-button>
-          <el-button size="mini" type="danger" plain @click="delUser">
-            删 除
-          </el-button>
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" plain @click="editUser(scope.row)">
+              编 辑
+            </el-button>
+            <el-button size="mini" type="danger" plain @click="delUser(scope.row)">
+              删 除
+            </el-button>
+          </template>
+          
         </el-table-column>
       </el-table>
 
@@ -99,6 +98,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { Loading } from 'element-ui';
 export default {
   name: "User",
   data() {
@@ -110,7 +111,6 @@ export default {
         id: "",
         name: "",
         gender: "",
-        major: "",
         email: "",
       },
       // 搜索框信息
@@ -120,34 +120,7 @@ export default {
       },
       // 所有用户信息表单
       tableData: [
-        {
-          id: "15185912234",
-          name: "田阿强",
-          gender: "男",
-          major: "软件工程",
-          email: "3072592845@qq.com",
-        },
-        {
-          id: "15185912234",
-          name: "田阿强",
-          gender: "男",
-          major: "软件工程",
-          email: "3072592845@qq.com",
-        },
-        {
-          id: "15185912234",
-          name: "田阿强",
-          gender: "男",
-          major: "软件工程",
-          email: "3072592845@qq.com",
-        },
-        {
-          id: "15185912234",
-          name: "田阿强",
-          gender: "男",
-          major: "软件工程",
-          email: "3072592845@qq.com",
-        },
+
       ],
 
       config: {
@@ -159,44 +132,74 @@ export default {
   methods: {
     // 确认提交处理函数
     confirm() {
-      // if (this.operateType === "edit") {
-      //   this.$http.post("user/edit", this.operateForm).then((res) => {
-      //     this.isShow = false;
-      //   });
-      // } else {
-      //   this.$http.post("user/add", this.operateForm).then((res) => {
-      //     this.isShow = false;
-      //   });
-      // }
+      if (this.operateType === "edit") {
+        axios.get(`examination/updateStuServlet?studentId=${this.operateForm.id}&name=${this.operateForm.name}&gender=${this.operateForm.gender}&email=${this.operateForm.email}`)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        axios.get(`examination/addStuServlet?name=${this.operateForm.name}&gender=${this.operateForm.gender}&email=${this.operateForm.email}`)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+      this.StudentList()
+      this.isShow = false
+      location.reload()
     },
     addUser() {
-      this.isShow = true;
-      this.operateType = "add";
+      this.isShow = true
+      this.operateType = "add"
       this.operateForm = {
-        id: "",
+        id: "不可输入",
         name: "",
         gender: "",
-        major: "",
         email: "",
-      };
+      }
     },
     // 编辑用户信息，可能需要传参，将原有用户信息加在里面，在修改
-    editUser() {
+    editUser(row) {
       this.isShow = true;
       this.operateType = "edit";
       this.operateForm = {
-        id: "原有账号",
-        name: "原有",
-        gender: "原有",
-        major: "原有",
-        email: "原有",
+        id: row.studentId,
+        name: row.name,
+        gender: row.gender,
+        email: row.email,
       };
     },
-    delUser() {},
-    // 搜索用户
+    delUser(row) {
+      axios.get(`examination/deleteStuServlet?studentId=${row.studentId}`)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      location.reload()
+    },
     getList() {},
+    StudentList() {
+      axios.get('examination/stuListServlet')
+      .then(response => {
+        this.tableData = response.data
+        // console.log(this.tableData)
+      })
+      .catch(error => {
+        console.log("error : ", error)
+      })
+    },
     changePage() {},
   },
+  mounted(){
+    this.StudentList()
+  }
 };
 </script>
 
@@ -205,5 +208,13 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.table {
+  height: 100%;
+}
+.manage {
+  margin: 0;
+  padding: 0;
+  height: 97%;
 }
 </style>
