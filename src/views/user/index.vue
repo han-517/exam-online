@@ -39,8 +39,8 @@
         </el-form-item>
         <el-form-item label="性别">
           <el-select placeholder="请选择性别" v-model="operateForm.gender">
-            <el-option label="男" value="0"></el-option>
-            <el-option label="女" value="1"></el-option>
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="邮箱">
