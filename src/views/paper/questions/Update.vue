@@ -33,7 +33,7 @@
               :value="bank.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="所属专业" prop="major">
+        <el-form-item label="所属专业">
           <el-select  
             v-model="ruleForm.majorId"
             placeholder="请选择专业">
@@ -91,6 +91,7 @@
         </el-table>
         <!-- 多选题答案框 -->
         <el-table
+          ref="mutiTable"
           :data="ruleForm.answerList"
           :border="true"
           style="width: 100%"
@@ -173,10 +174,10 @@ export default {
           { required: true, message: "请选择一个题目类型", trigger: "change" },
         ],
         bank: [{ required: true, message: "请选择一个题库", trigger: "blur" }],
+        major: [{ required: true, message: "请选择一个专业", trigger: "blur" }],
       },
       BankList: [],
       MajorList: [],
-      currentrow: undefined,
     };
   },
   methods: {
@@ -265,6 +266,11 @@ export default {
 
     handleCurrentChange(val) {
       this.ruleForm.answerId = val.id
+      var data = this.$refs.singleTable.tableData
+      this.ruleForm.optionA = data[0].content
+      this.ruleForm.optionB = data[1].content
+      this.ruleForm.optionC = data[2].content
+      this.ruleForm.optionD = data[3].content
     },
 
     MutiCheck(selection) {
@@ -274,6 +280,11 @@ export default {
         if(element.checked) num += 1 << index
       })
       this.ruleForm.answerId = num
+      var data = this.$refs.mutiTable.tableData
+      this.ruleForm.optionA = data[0].content
+      this.ruleForm.optionB = data[1].content
+      this.ruleForm.optionC = data[2].content
+      this.ruleForm.optionD = data[3].content
     }
 
     // // 重置

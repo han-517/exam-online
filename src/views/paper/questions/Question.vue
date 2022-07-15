@@ -61,7 +61,7 @@ export default {
         content: "",
         majorId: "",
         createtime: "",
-        bankIdL: "",
+        bankId: "",
         answerId: "",
         remark: "",
         optionA: "",
