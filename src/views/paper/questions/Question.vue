@@ -22,18 +22,22 @@
 
     <div class="table">
       <el-table :data="tableData" height="90%" border stripe>
-        <el-table-column prop="type" label="题目类型"> </el-table-column>
+        <el-table-column prop="typeName" label="题目类型"> </el-table-column>
         <el-table-column prop="content" label="题目内容"> </el-table-column>
-        <el-table-column prop="major" label="专业"> </el-table-column>
-        <el-table-column prop="bank" label="所属题库"> </el-table-column>
-        <el-table-column prop="createtime" label="创建时间"> </el-table-column>
+        <el-table-column prop="majorName" label="专业"> </el-table-column>
+        <el-table-column prop="bankName" label="所属题库"> </el-table-column>
         <el-table-column label="操作" min-width="100px">
-          <el-button size="mini" type="primary" @click="updateQues(item)">
-            更 新
-          </el-button>
-          <el-button size="mini" type="danger" @click="delQues">
-            删 除
-          </el-button>
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="primary"
+              @click="updateQues(item, scope.row)">
+              更 新
+            </el-button>
+            <el-button size="mini" type="danger" @click="delQues(scope.row)">
+              删 除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -41,6 +45,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "qusetion",
   data() {
@@ -51,10 +56,18 @@ export default {
         label: "",
       },
       operateForm: {
+        id: "",
         type: "",
         content: "",
-        major: "",
+        majorId: "",
         createtime: "",
+        bankIdL: "",
+        answerId: "",
+        remark: "",
+        optionA: "",
+        optionB: "",
+        optionC: "",
+        optionD: "",
       },
       // 搜索框信息
       searchForm: {
@@ -63,32 +76,9 @@ export default {
       },
       // 所有题库信息表单，这里是写死的，还需要从数据库中读取
       tableData: [
-        {
-          id: "",
-          type: "单选题",
-          content: "树上有几只鸟",
-          major: "软件工程nua",
-          bank: "默认题库",
-          createtime: "2016-05-02",
-        },
-        {
-          id: "",
-          type: "单选题",
-          content: "树上有几只鸟",
-          major: "软件工程",
-          bank: "默认题库",
-          createtime: "2016-05-02",
-        },
-        {
-          id: "",
-          type: "单选题",
-          content: "树上有几只鸟",
-          major: "软件工程",
-          bank: "默认题库",
-          createtime: "2016-05-02",
-        },
+        {},{},{},{},{},{},{},{},{},{},{},{}
       ],
-
+      
       // 分页有关参数，不用管
       config: {
         page: 1,
@@ -109,15 +99,29 @@ export default {
         name: "add",
         label: "新增题目",
       };
-
       this.$store.commit("selectMenu", item);
-      console.log("添加");
+      // console.log("添加");
     },
 
     // 更新题目
-    updateQues(item) {
+    updateQues(item, row) {
       this.$router.push({
         name: "update",
+        params: {
+          data: {
+            id: row.id,
+            type: row.type,
+            content: row.content,
+            majorId: row.majorId,
+            bankId: row.bankId,
+            answerId: row.answerId,
+            remark: row.remark,
+            optionA: row.optionA,
+            optionB: row.optionB,
+            optionC: row.optionC,
+            optionD: row.optionD
+          }
+        }
       });
 
       item = {
@@ -125,17 +129,33 @@ export default {
         name: "update",
         label: "更新题目",
       };
-
       this.$store.commit("selectMenu", item);
-      console.log(item.name);
     },
     // 删除题目
-    delQues() {},
+    delQues(row) {
+      axios.get(`examination/question/delete?id=${row.id}`)
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      location.reload()
+    },
     // 搜索用户
     getList() {},
     // 分页操作
     changePage() {},
   },
+  mounted() {
+    axios.get('examination/question/list')
+    .then(response => {
+      this.tableData = response.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 };
 </script>
 

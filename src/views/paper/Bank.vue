@@ -166,8 +166,6 @@ export default {
       })
     }
   },
-  computed: {
-  },
   mounted(){
     this.BankList()
   }

@@ -1,4 +1,5 @@
 //引入Vue核心库
+import axios from "axios";
 import Vue from "vue";
 //引入Vuex
 import Vuex from "vuex";
@@ -14,6 +15,15 @@ const actions = {
     // context.state.sum
     context.commit("COLLAPSE");
   },
+  updatebanklist(context){
+    axios.get('examination/getAllBankNameServlet')
+      .then(response => {
+        context.commit('updateBankList', response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 };
 
 //初始化数据
@@ -29,6 +39,8 @@ const state = {
   ],
   currentMenu: null,
   isStudent: false,
+  banklist: [],
+  studentlist: []
 };
 
 const mutations = {
@@ -46,7 +58,7 @@ const mutations = {
     if (val.name !== "home") {
       //不是首页
       state.currentMenu = val;
-      const result = state.tabList.findIndex((item) => item.name === val.name);
+      const result = state.tabList.findIndex  ((item) => item.name === val.name);
       if (result === -1) {
         state.tabList.push(val);
       }
@@ -60,13 +72,20 @@ const mutations = {
     const result = state.tabList.findIndex((item) => item.name === val.name);
     state.tabList.splice(result, 1);
   },
+  updateBankList(state, value){
+    state.banklist = value
+  },
 };
+
+const getters = {
+}
 
 //创建并暴露store
 export default new Vuex.Store({
   actions,
   mutations,
   state,
+  getters
 });
 
 //在methods中定义的函数使用：this.$store.dispatch调用action
