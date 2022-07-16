@@ -250,6 +250,20 @@ export default {
     // 提交按钮
     submitForm() {
       // console.log(this.ruleForm)
+      if(this.ruleForm.type === 0){
+        var data = this.$refs.singleTable.tableData
+        this.ruleForm.optionA = data[0].content
+        this.ruleForm.optionB = data[1].content
+        this.ruleForm.optionC = data[2].content
+        this.ruleForm.optionD = data[3].content
+      }
+      else if(this.ruleForm.type === 1){
+        var data = this.$refs.mutiTable.tableData
+        this.ruleForm.optionA = data[0].content
+        this.ruleForm.optionB = data[1].content
+        this.ruleForm.optionC = data[2].content
+        this.ruleForm.optionD = data[3].content
+      }
       axios.get(`examination/question/update?id=${this.ruleForm.id}&content=${this.ruleForm.content}&optionA=${this.ruleForm.optionA}&optionB=${this.ruleForm.optionB}&optionC=${this.ruleForm.optionC}&optionD=${this.ruleForm.optionD}&answerId=${this.ruleForm.answerId}&bankId=${this.ruleForm.bankId}&majorId=${this.ruleForm.majorId}&remark=${this.ruleForm.remark}&type=${this.ruleForm.type}`)
       .then(response => {
         console.log(response)
@@ -257,6 +271,7 @@ export default {
       .catch(err => {
         console.log(err)
       })
+      this.onCancel()
     },
 
     // 取消保存，返回按钮

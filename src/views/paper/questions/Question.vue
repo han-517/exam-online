@@ -21,7 +21,7 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" height="90%" border stripe>
+      <el-table :data="tableData" height="100%" border stripe>
         <el-table-column prop="typeName" label="题目类型"> </el-table-column>
         <el-table-column prop="content" label="题目内容"> </el-table-column>
         <el-table-column prop="majorName" label="专业"> </el-table-column>
@@ -164,5 +164,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.table {
+  height: 100%;
 }
 </style>
