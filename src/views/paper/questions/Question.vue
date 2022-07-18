@@ -21,7 +21,7 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" height="90%" border stripe>
+      <el-table :data="tableData" height="100%" border stripe>
         <el-table-column prop="typeName" label="题目类型"> </el-table-column>
         <el-table-column prop="content" label="题目内容"> </el-table-column>
         <el-table-column prop="majorName" label="专业"> </el-table-column>
@@ -41,6 +41,13 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="9"
+      :page-count="config.page"
+      :total="config.toatl">
+    </el-pagination>
   </div>
 </template>
 
@@ -76,13 +83,12 @@ export default {
       },
       // 所有题库信息表单，这里是写死的，还需要从数据库中读取
       tableData: [
-        {},{},{},{},{},{},{},{},{},{},{},{}
+        {},{},{},{},{},{},{},{},{}
       ],
-      
       // 分页有关参数，不用管
       config: {
         page: 1,
-        toatl: 30,
+        toatl: 9,
       },
     };
   },
@@ -166,11 +172,13 @@ export default {
   align-items: center;
 }
 .table {
-  height: 100%;
+  height: 85%;
+  margin: 10px;
+  padding: 0;
 }
 .manage {
   margin: 0;
   padding: 0;
-  height: 90%;
+  height: 100%;
 }
 </style>

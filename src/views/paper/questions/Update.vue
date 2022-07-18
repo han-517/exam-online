@@ -13,7 +13,7 @@
             v-model="ruleForm.type"
             placeholder="请选择"
             class="filter-item"
-            @change="handleTypeChange(ruleForm.type)" disabled>
+            @change="handleTypeChange(ruleForm.type)">
             <el-option
               v-for="item in quTypes"
               :key="item.value"
@@ -67,7 +67,7 @@
           size="small"
           plain
           @click="handleAdd"
-          v-if="ruleForm.type === 3"
+          v-if="ruleForm.type === 4"
         >
           添加答案
         </el-button>
@@ -115,7 +115,7 @@
             </template>
           </el-table-column> -->
 
-          <el-table-column label="操作" align="center" width="100px">
+          <!-- <el-table-column label="操作" align="center" width="100px">
             <template slot-scope="scope">
               <el-button
                 type="danger"
@@ -124,7 +124,7 @@
                 @click="removeItem(scope.$index)"
               />
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <!-- 判断题答案框 -->
         <el-card v-if="ruleForm.type === 2">
@@ -133,9 +133,23 @@
             <el-radio v-model="ruleForm.answerId" :label="0">错</el-radio>
           </template>
         </el-card>
+        <!-- 简答题答题框 -->
+        <el-card v-if="ruleForm.type === 3">
+          <template>
+            <p></p>
+            <el-input 
+              v-model="ruleForm.optionA" 
+              type="textarea"
+              style="width: 800pxpx; font-size: 20px"
+              rows="5"
+            />
+          </template>
+        </el-card>
       </div>
       <br/>
+      <div v-if="ruleForm.type !== 3">
         答案：<el-input disabled v-model="Answer"></el-input>
+      </div>
       <br/>
       <div style="margin-top: 20px">
         <el-button type="primary" @click="submitForm">保存</el-button>
@@ -164,6 +178,10 @@ export default {
         {
           value: 2,
           label: "判断题",
+        },
+        {
+          value: 3,
+          label: "简答题"
         }
       ],
       rules: {
@@ -333,15 +351,18 @@ export default {
     Answer(){
       var res = ''
       var num = this.ruleForm.answerId
-      if(this.ruleForm.type !== 2){
+      if(this.ruleForm.type === 1 || this.ruleForm.type === 0){
         if(num & 1) res += 'A'
         if(num & 2) res += 'B'
         if(num & 4) res += 'C'
         if(num & 8) res += 'D'
       }
-      else{
+      else if(this.ruleForm.type === 2){
         if(num === 0) res = '错'
         if(num === 16) res = '对'
+      }
+      else if(this.ruleForm.type === 3){
+        res = this.ruleForm.optionA
       }
       return res
     }
