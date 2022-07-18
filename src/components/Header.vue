@@ -35,7 +35,7 @@
             </router-link>
           </template>
 
-          <router-link :to="{ name: 'password' }">
+          <router-link :to="{ name: 'login' }">
             <el-dropdown-item>退出</el-dropdown-item>
           </router-link>
         </el-dropdown-menu>

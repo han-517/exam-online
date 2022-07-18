@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form status-icon label-width="100px">
-      <el-form-item label="账号">
+      <el-form-item label="邮箱账号">
         <el-input>{{ myInfo.id }}</el-input>
       </el-form-item>
       <el-form-item label="姓名">

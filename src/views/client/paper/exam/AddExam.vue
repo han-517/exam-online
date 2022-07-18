@@ -29,8 +29,8 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="多选题数" prop="mulNum">
-          <el-input v-model.number="ruleForm.mulNum" placeholder="0"></el-input>
+        <el-form-item label="多选题数" prop="multiNum">
+          <el-input v-model.number="ruleForm.multiNum" placeholder="0"></el-input>
         </el-form-item>
 
         <el-form-item label="判断题数" prop="judgeNum">
@@ -72,7 +72,7 @@ export default {
       ruleForm: {
         name: "",
         singleNum: "",
-        mulNum: "",
+        multiNum: "",
         judgeNum: "",
         majors: [],
       },

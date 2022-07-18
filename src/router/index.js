@@ -13,7 +13,7 @@ import Exam from "../views/paper/Exam.vue";
 import Info from "../views/info/index";
 import MyInfo from "../views/info/MyInfo";
 import Password from "../views/info/Password";
-import EditMyInfo from "../views/info/EditMyInfo";
+
 
 import Client from "@/views/client/User";
 import uHome from "@/views/client/home";
@@ -25,7 +25,7 @@ import addExam from "@/views/client/paper/exam/AddExam";
 import examCard from "@/views/client/paper/exam/ExamCard";
 import uMyInfo from "@/views/client/info/MyInfo";
 import uPassword from "@/views/client/info/Password";
-import uEditMyInfo from "@/views/client/info/EditMyInfo";
+
 
 export default new VueRouter({
   mode: "hash",
@@ -94,11 +94,6 @@ export default new VueRouter({
               path: "myinfo",
               name: "myinfo",
               component: MyInfo,
-            },
-            {
-              path: "editMyInfo",
-              name: "editmyinfo",
-              component: EditMyInfo,
             },
             {
               path: "password",
@@ -179,11 +174,6 @@ export default new VueRouter({
               path: "myinfo",
               name: "umyinfo",
               component: uMyInfo,
-            },
-            {
-              path: "editMyInfo",
-              name: "ueditmyinfo",
-              component: uEditMyInfo,
             },
             {
               path: "password",

@@ -53,10 +53,6 @@
       </el-menu-item>
       <el-menu-item @click="clickMenu(menu[3].children[1])" index="4-2">
         <i class="el-icon-edit"></i>
-        编辑个人信息
-      </el-menu-item>
-      <el-menu-item @click="clickMenu(menu[3].children[2])" index="4-3">
-        <i class="el-icon-edit"></i>
         修改密码
       </el-menu-item>
     </el-submenu>
@@ -105,11 +101,6 @@ export default {
               path: "/info/myinfo",
               name: "myinfo",
               label: "个人信息",
-            },
-            {
-              path: "/info/editmyinfo",
-              name: "editmyinfo",
-              label: "编辑个人信息",
             },
             {
               path: "/info/password",
