@@ -16,15 +16,17 @@
             <h2>{{ item.name }}</h2>
             <span>共{{ item.count }}题</span>
           </template>
-          <el-button
+
+          <!-- 内部序号按钮 -->
+          <!-- <el-button
             class="answer-button"
             circle
             size="small"
-            v-for="index of item.count"
-            :id="'answer' + item.code + index"
-            :key="index"
-            >{{ index }}
-          </el-button>
+            v-for="count in item.count"
+            :id="'answer' + item.code + count"
+            :key="count"
+            >{{ count }}</el-button
+          > -->
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -73,6 +75,15 @@
             <el-radio label="对" class="answer-radio">A.对</el-radio>
             <el-radio label="错" class="answer-radio">B.错</el-radio>
           </el-radio-group>
+
+          <el-input
+            v-if="item.type === 3"
+            type="textarea"
+            style="width: 600px; font-size: 15px"
+            rows="3"
+            placeholder="请输入答案"
+            v-model="sub.examineAnswer"
+          ></el-input>
         </el-card>
       </div>
     </div>
@@ -188,6 +199,25 @@ export default {
               context: "树上有2只鸟",
               answerId: 1,
               examineAnswer: [],
+            },
+          ],
+        },
+        {
+          type: 3,
+          name: "简答题",
+          code: "shortAnswer",
+          // 题数量
+          count: "2",
+          childs: [
+            {
+              no: 1,
+              context: "树上有几只鸟？",
+              examineAnswer: "",
+            },
+            {
+              no: 2,
+              context: "树上有几只鸟？",
+              examineAnswer: "",
             },
           ],
         },

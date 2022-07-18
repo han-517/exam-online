@@ -6,7 +6,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 //引入路由器
 import router from "./router";
-// 引入vux
+// 引入vuex
 import store from "./store";
 //引入VueRouter
 import VueRouter from "vue-router";

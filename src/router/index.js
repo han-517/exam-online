@@ -1,19 +1,18 @@
 import VueRouter from "vue-router";
-import Manager from "../views/Manager.vue";
-import Home from "../views/home";
-import User from "../views/user";
+import Manager from "@/views/Manager.vue";
+import Home from "@/views/home";
+import User from "@/views/user";
 import Login from "@/views/login/Login.vue";
 import Register from "@/views/login/Register.vue";
-import Paper from "../views/paper/index";
-import Bank from "../views/paper/Bank.vue";
-import Question from "../views/paper/questions/Question.vue";
-import Add from "../views/paper/questions/Add.vue";
-import Update from "../views/paper/questions/Update.vue";
-import Exam from "../views/paper/Exam.vue";
-import Info from "../views/info/index";
-import MyInfo from "../views/info/MyInfo";
-import Password from "../views/info/Password";
-
+import Paper from "@/views/paper/index";
+import Bank from "@/views/paper/Bank.vue";
+import Question from "@/views/paper/questions/Question.vue";
+import Add from "@/views/paper/questions/Add.vue";
+import Update from "@/views/paper/questions/Update.vue";
+import Exam from "@/views/paper/Exam.vue";
+import Info from "@/views/info/index";
+import MyInfo from "@/views/info/MyInfo";
+import Password from "@/views/info/Password";
 
 import Client from "@/views/client/User";
 import uHome from "@/views/client/home";
@@ -25,7 +24,6 @@ import addExam from "@/views/client/paper/exam/AddExam";
 import examCard from "@/views/client/paper/exam/ExamCard";
 import uMyInfo from "@/views/client/info/MyInfo";
 import uPassword from "@/views/client/info/Password";
-
 
 export default new VueRouter({
   mode: "hash",
