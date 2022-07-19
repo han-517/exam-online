@@ -40,7 +40,8 @@ const state = {
   currentMenu: null,
   isStudent: false,
   banklist: [],
-  studentlist: []
+  studentlist: [],
+  id: ''
 };
 
 const mutations = {
@@ -72,9 +73,12 @@ const mutations = {
     const result = state.tabList.findIndex((item) => item.name === val.name);
     state.tabList.splice(result, 1);
   },
-  updateBankList(state, value){
-    state.banklist = value
+
+  LOGIN(state, val) {
+    state.id = val
   },
+
+
 };
 
 const getters = {

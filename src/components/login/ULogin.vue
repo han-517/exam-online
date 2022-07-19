@@ -4,8 +4,8 @@
     <el-form>
       <div class="user">
         <el-input
-          placeholder="请输入用户名"
-          v-model="loginForm.username"
+          placeholder="请输入账号"
+          v-model="loginForm.user"
           clearable
         >
         </el-input>
@@ -52,12 +52,13 @@
 
 <script>
 import axios from "axios";
+import { Loading } from 'element-ui';
 export default {
   name: "StudentLogin",
   data() {
     return {
       loginForm: {
-        username: "",
+        user: "",
         password: "",
         checkcode: "",
       },
@@ -70,20 +71,23 @@ export default {
       vcode.src = "examination/checkCodeServlet?time=" + new Date().getTime();
     },
     ulogin() {
+      let load = Loading.service({
+        text: "正在登录中，请稍等..."
+      })
       axios
         .get(
-          `examination/studentLoginServlet?vertify=${this.loginForm.checkcode}&username=${this.loginForm.username}&password=${this.loginForm.password}`
+          `examination/studentLoginServlet?vertify=${this.loginForm.checkcode}&user=${this.loginForm.user}&password=${this.loginForm.password}`
         )
-        .then((response) => {
-          this.$router.push({ name: "uhome" });
-          console.log(response);
+        .then(async(response) => {
+          await this.$store.commit("LOGIN", this.loginForm.user)
+          load.close()
+          this.$router.push({ name: "uhome" })
         })
         .catch((error) => {
           console.log(error);
         });
-      this.$router.push({
-        name: "uhome",
-      });
+      
+      this.$router.push({ name: "uhome" }); // 测试
     },
     register() {
       this.$router.push({ name: "register" });
