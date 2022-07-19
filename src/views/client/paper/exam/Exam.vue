@@ -26,14 +26,23 @@
         <el-table-column prop="singleNum" label="单选题数量"> </el-table-column>
         <el-table-column prop="mulNum" label="多选题数量"> </el-table-column>
         <el-table-column prop="judgeNum" label="判断题数量"> </el-table-column>
-        <el-table-column prop="createtime" label="创建时间"> </el-table-column>
-        <el-table-column prop="score" label="分数"> </el-table-column>
+        <el-table-column prop="createDate" label="创建时间"> </el-table-column>
+        <!-- <el-table-column prop="score" label="分数"> </el-table-column> -->
       </el-table>
     </div>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="config.pageSize"
+      :page-count="config.currentPage"
+      :total="config.total"
+      @current-change="pagechange">
+    </el-pagination>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "qusetion",
   data() {
@@ -50,38 +59,23 @@ export default {
         keyword: "",
       },
       // 所有题库信息表单，这里是写死的，还需要从数据库中读取
-      tableData: [
-        {
-          id: "",
-          name: "第一次考试",
-          singleNum: "5",
-          mulNum: "6",
-          judgeNum: "7",
-          createtime: "2022-7-12",
-          score: "90",
-        },
-        {
-          id: "",
-          name: "第一次考试",
-          singleNum: "5",
-          mulNum: "6",
-          judgeNum: "7",
-          createtime: "2022-7-12",
-          score: "90",
-        },
-        {
-          id: "",
-          name: "第一次考试",
-          singleNum: "5",
-          mulNum: "6",
-          judgeNum: "7",
-          createtime: "2022-7-12",
-          score: "90",
-        },
-      ],
+      tableData: [],
+
+      config: {
+        currentPage: 1,
+        pageSize: 9,
+        total: 0
+      }
     };
   },
   methods: {
+    pagechange(value) {
+      axios.get(`examination/paper/curPagePaper?currentPage=${value}&pageSize=${this.config.pageSize}`)
+      .then(response => {
+        this.tableData = response.data['rows']
+        this.config.total = response.data['totalCount']
+      })
+    },
     // 确认提交处理函数，
     confirm() {},
     // 开始添加考试
@@ -101,6 +95,16 @@ export default {
     // 搜索用户
     getList() {},
   },
+  mounted() {
+    axios.get(`examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
+    .then(response => {
+      this.tableData = response.data['rows']
+      this.config.total = response.data['totalCount']
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 };
 </script>
 
@@ -109,5 +113,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.table {
+  height: 85%;
 }
 </style>

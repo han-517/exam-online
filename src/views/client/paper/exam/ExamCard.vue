@@ -57,7 +57,7 @@
             <el-radio
               v-for="(o, index) in sub.answers"
               class="answer-radio"
-              :label="index"
+              :label="1 << index"
               :key="index"
               >{{ o.answer }}</el-radio
             >
@@ -66,14 +66,14 @@
             <el-checkbox
               v-for="(o, index) in sub.answers"
               class="answer-checkbox"
-              :label="o.answer"
+              :label="1 << index"
               :key="index"
               >{{ o.answer }}</el-checkbox
             >
           </el-checkbox-group>
           <el-radio-group v-if="item.type === 2" v-model="sub.examineAnswer">
-            <el-radio label="对" class="answer-radio">A.对</el-radio>
-            <el-radio label="错" class="answer-radio">B.错</el-radio>
+            <el-radio :label="16" class="answer-radio">A.对</el-radio>
+            <el-radio :label="0" class="answer-radio">B.错</el-radio>
           </el-radio-group>
 
           <el-input
@@ -97,6 +97,8 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui';
+import axios from 'axios';
 export default {
   name: "examinationPaper",
   props: {
@@ -114,125 +116,128 @@ export default {
   data() {
     return {
       //组装后数据集
-      convertDatas: [
-        {
-          type: 0,
-          name: "单选题",
-          code: "single",
-          // 题数量
-          count: "2",
-          childs: [
-            {
-              no: 1,
-              context: "树上有几只鸟()",
-              answers: [
-                { answer: "A.1只" },
-                { answer: "B.2只" },
-                { answer: "C.3只" },
-                { answer: "D.4只" },
-              ],
-              answerId: 1,
-              examineAnswer: [],
-            },
-            {
-              no: 2,
-              context: "树上有几只鸟()",
-              answers: [
-                { answer: "A.1只" },
-                { answer: "B.2只" },
-                { answer: "C.3只" },
-                { answer: "D.4只" },
-              ],
-              answerId: 1,
-              examineAnswer: [],
-            },
-          ],
-        },
-        {
-          type: 1,
-          name: "多选题",
-          code: "mul",
-          // 题数量
-          count: "2",
-          childs: [
-            {
-              no: 1,
-              context: "树上有几只鸟()",
-              answers: [
-                { answer: "A.1只" },
-                { answer: "B.2只" },
-                { answer: "C.3只" },
-                { answer: "D.4只" },
-              ],
-              answerId: 1,
-              examineAnswer: [],
-            },
-            {
-              no: 2,
-              context: "树上有几只鸟()",
-              answers: [
-                { answer: "A.1只" },
-                { answer: "B.2只" },
-                { answer: "C.3只" },
-                { answer: "D.4只" },
-              ],
-              answerId: 1,
-              examineAnswer: [],
-            },
-          ],
-        },
-        {
-          type: 2,
-          name: "判断题",
-          code: "judge",
-          // 题数量
-          count: "2",
-          childs: [
-            {
-              no: 1,
-              context: "树上有2只鸟",
-              answerId: 1,
-              examineAnswer: [],
-            },
-            {
-              no: 2,
-              context: "树上有2只鸟",
-              answerId: 1,
-              examineAnswer: [],
-            },
-          ],
-        },
-        {
-          type: 3,
-          name: "简答题",
-          code: "shortAnswer",
-          // 题数量
-          count: "2",
-          childs: [
-            {
-              no: 1,
-              context: "树上有几只鸟？",
-              examineAnswer: "",
-            },
-            {
-              no: 2,
-              context: "树上有几只鸟？",
-              examineAnswer: "",
-            },
-          ],
-        },
-      ],
+      convertDatas: [],
+      paperId: '',
+      origindata: {}
     };
   },
   methods: {
     // 交卷
     btnClick() {
       // this.$emit("PaperHand", this.tempDataSource);
+
+      // 题目正确判断
+      // 根据convertDatas里每一个题目的answerId与examineAnswer的值比较即可，多选题则把examineAnswer里的值求和比较
+
+
+      // 去试卷页面
       this.$router.push({
         name: "uexam",
       });
     },
   },
+  mounted() {
+    this.paperId = this.$route.params.paperId
+    // this.paperId = 23
+    let load = Loading.service({
+      text: "正在生成试卷中，请稍等..."
+    })
+    axios.get(`examination/paper/search?paperId=${this.paperId}`)
+    .then(response => {
+      this.origindata = response.data
+      this.convertDatas = []
+
+      var res = {
+        type: 0,
+        name: "单选题",
+        code: "single",
+        // 题数量
+        count: response.data['单选题'].length,
+        childs: []
+      }
+      response.data['单选题'].forEach( (el, index) => {
+        res.childs.push({
+          no: index + 1,
+          context: el.content,
+          answers: [
+            { answer: `A. ${el.optionA}` },
+            { answer: `B. ${el.optionB}` },
+            { answer: `C. ${el.optionC}` },
+            { answer: `D. ${el.optionD}` }
+          ],
+          answerId: el.answerId,
+          examineAnswer: undefined
+        })
+      })
+      this.convertDatas.push(res)
+
+      var res = {
+        type: 1,
+        name: "多选题",
+        code: "mul",
+        // 题数量
+        count: response.data['多选题'].length,
+        childs: []
+      }
+      response.data['多选题'].forEach( (el, index) => {
+        res.childs.push({
+          no: index + 1,
+          context: el.content,
+          answers: [
+            { answer: `A. ${el.optionA}` },
+            { answer: `B. ${el.optionB}` },
+            { answer: `C. ${el.optionC}` },
+            { answer: `D. ${el.optionD}` }
+          ],
+          answerId: el.answerId,
+          examineAnswer: []
+        })
+      })
+      this.convertDatas.push(res)
+
+      var res = {
+        type: 2,
+        name: "判断题",
+        code: "judge",
+        // 题数量
+        count: response.data['对错题'].length,
+        childs: []
+      }
+      response.data['对错题'].forEach( (el, index) => {
+        res.childs.push({
+          no: index + 1,
+          context: el.content,
+          answerId: el.answerId,
+          examineAnswer: undefined
+        })
+      })
+      this.convertDatas.push(res)
+
+      var res = {
+        type: 3,
+        name: "简答题",
+        code: "shortAnswer",
+        // 题数量
+        count: response.data['简答题'].length,
+        childs: []
+      }
+      response.data['简答题'].forEach( (el, index) => {
+        res.childs.push({
+          no: index + 1,
+          context: el.content,
+          answers: el.optionA,
+          examineAnswer: ''
+        })
+      })
+      this.convertDatas.push(res)
+    })
+    .catch({
+
+    })
+    .finally(() => {
+      load.close()
+    })
+  }
 };
 </script>
 

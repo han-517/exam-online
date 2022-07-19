@@ -16,7 +16,7 @@
         </div>
         <el-form-item label="试卷名称" prop="name">
           <el-input
-            v-model.number="ruleForm.singleNum"
+            v-model="ruleForm.name"
             style="width: 350px"
           ></el-input>
         </el-form-item>
@@ -25,35 +25,42 @@
         <el-form-item label="单选题数" prop="singleNum">
           <el-input
             v-model.number="ruleForm.singleNum"
-            placeholder="0"
+            placeholder=""
           ></el-input>
         </el-form-item>
 
         <el-form-item label="多选题数" prop="multiNum">
-          <el-input v-model.number="ruleForm.multiNum" placeholder="0"></el-input>
+          <el-input v-model.number="ruleForm.multiNum" placeholder=""></el-input>
         </el-form-item>
 
         <el-form-item label="判断题数" prop="judgeNum">
           <el-input
             v-model.number="ruleForm.judgeNum"
-            placeholder="0"
+            placeholder=""
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="简答题数量" prop="brieflyNum">
+          <el-input
+            v-model.number="ruleForm.brieflyNum"
+            placeholder=""
           ></el-input>
         </el-form-item>
         <el-divider></el-divider>
-
-        <el-form-item label="专业选择">
-          <el-checkbox-group v-model="ruleForm.majors">
-            <el-checkbox label="软件工程" name="majors" border></el-checkbox>
-            <el-checkbox label="数字媒体" name="majors" border></el-checkbox>
-            <el-checkbox label="通信工程" name="majors" border></el-checkbox>
-            <el-checkbox label="网络安全" name="majors" border></el-checkbox>
-            <br />
-            <el-checkbox label="人工智能" name="majors" border></el-checkbox>
-            <el-checkbox label="电子科学" name="majors" border></el-checkbox>
-            <el-checkbox label="材料化学" name="majors" border></el-checkbox>
-            <el-checkbox label="行政管理" name="majors" border></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+        <el-select
+          v-model="ruleForm.majors"
+          multiple
+          collapse-tags
+          style="margin-left: 20px;"
+          placeholder="请选择专业">
+          <el-option
+            v-for="item in MajorList"
+            :key="item.majorId"
+            :label="item.name"
+            :value="item.majorId">
+          </el-option>
+        </el-select>
+        
       </el-card>
 
       <div style="margin-top: 20px">
@@ -65,16 +72,20 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   data() {
     return {
+      userid: '',
+
       // 题目相关内容
       ruleForm: {
         name: "",
-        singleNum: "",
-        multiNum: "",
-        judgeNum: "",
-        majors: [],
+        singleNum: undefined,
+        multiNum: undefined,
+        judgeNum: undefined,
+        brieflyNum: undefined,
+        majors: []
       },
       rules: {
         name: [{ required: true, message: "名称不能为空", trigger: "blur" }],
@@ -87,12 +98,35 @@ export default {
           },
         ],
       },
+      
+      MajorList: [],
     };
   },
   methods: {
     // 提交按钮
     submitForm() {
-      this.$router.push({ name: "examCard" });
+      axios.get(`examination/paper/add?judgeNum=${this.ruleForm.judgeNum}&mulNum=${this.ruleForm.multiNum}&singleNum=${this.ruleForm.singleNum}&brieflyNum=${this.ruleForm.brieflyNum}&name=${this.ruleForm.name}&userId=${this.userid}&majorId=${this.majorstr}`)
+      .then(response => {
+        this.$notify({
+          title: '生成试卷成功',
+          message: '即将跳转到答题卡',
+          type: 'success'
+        })
+        setTimeout(() => {
+          this.$router.push({
+          name: "examCard",
+          params: {
+            paperId: response.data['paperId']
+          }
+        })}, 1000)
+      })
+      .catch(err => {
+        this.$notify.error({
+          title: '生成失败',
+          message: '请填写正确信息重试'
+        })
+      })
+      
     },
 
     // 取消保存，返回按钮
@@ -100,6 +134,25 @@ export default {
       this.$router.push({ name: "uquestion" });
     },
   },
+  mounted() {
+    axios.get("examination/getAllMajorServlet")
+    .then((response) => {
+      this.MajorList = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  },
+  computed: {
+    majorstr(){
+      var res = ''
+      for(let i = 0; i < this.ruleForm.majors.length - 1; ++i){
+        res += (this.ruleForm.majors[i] + ',')
+      }
+      res += this.ruleForm.majors[this.ruleForm.majors.length - 1]
+      return res
+    }
+  }
 };
 </script>
 

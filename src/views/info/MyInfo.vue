@@ -2,11 +2,11 @@
   <div>
     <el-form status-icon label-width="100px">
       <el-form-item label="姓名">
-        <el-input>{{ myInfo.name }}</el-input>
+        <el-input v-model="myInfo.name"></el-input>
       </el-form-item>
-      <el-form-item label="性别">
-        <el-input>{{ myInfo.gender }}</el-input>
-      </el-form-item>
+      <!-- <el-form-item label="性别">
+        <el-input v-model="myInfo.gender"></el-input>
+      </el-form-item> -->
 
       <el-form-item>
         <el-button type="primary" @click="editMyInfo(item)">编辑修改</el-button>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -34,14 +35,25 @@ export default {
   },
   methods: {
     editMyInfo(item) {
-      console.log(item);
-      this.$router.push({
-        name: item.name,
-      });
-
-      this.$store.commit("selectMenu", item);
+      // console.log(item);
+      axios.get(`examination/update/admin?teacherId=${this.myInfo.id}&name=${this.myInfo.name}`)
+      .then(response => {
+        this.$notify({
+          title: '修改成功',
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.$notify.error({
+          title: '修改失败'
+        });
+      })
     },
   },
+  mounted(){
+    this.myInfo.id = this.$store.state.id
+
+  }
 };
 </script>
 

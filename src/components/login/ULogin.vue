@@ -71,23 +71,45 @@ export default {
       vcode.src = "examination/checkCodeServlet?time=" + new Date().getTime();
     },
     ulogin() {
-      let load = Loading.service({
-        text: "正在登录中，请稍等..."
-      })
-      axios
+      
+      if(this.loginForm.user === '' || this.loginForm.password === ''){
+        this.$notify.error({
+              title: '登录失败',
+              message: '账号和密码不能为空！'
+            });
+      }
+      else{
+        let load = Loading.service({
+          text: "正在登录中，请稍等..."
+        })
+        axios
         .get(
           `examination/studentLoginServlet?vertify=${this.loginForm.checkcode}&user=${this.loginForm.user}&password=${this.loginForm.password}`
         )
         .then(async(response) => {
           await this.$store.commit("LOGIN", this.loginForm.user)
           load.close()
-          this.$router.push({ name: "uhome" })
+          if(response.data['isSuccess']){
+            this.$notify({
+              title: '登录成功',
+              type: 'success'
+            });
+            setTimeout(() => 
+              this.$router.push({ name: "uhome" })
+              , 1000)
+          }
+          else{
+            this.$notify.error({
+              title: '登录失败',
+              message: response.data['errReason']
+            });
+          }
         })
         .catch((error) => {
           console.log(error);
         });
-      
-      this.$router.push({ name: "uhome" }); // 测试
+      }
+      // this.$router.push({ name: "uhome" }); // 测试
     },
     register() {
       this.$router.push({ name: "register" });

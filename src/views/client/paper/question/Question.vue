@@ -41,9 +41,10 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :page-size="9"
-      :page-count="config.page"
-      :total="config.toatl">
+      :page-size="config.pageSize"
+      :page-count="config.currentPage"
+      :total="config.total"
+      @current-change="pagechange">
     </el-pagination>
   </div>
 </template>
@@ -84,12 +85,21 @@ export default {
       ],
       // 分页有关参数，不用管
       config: {
-        page: 1,
-        toatl: 9,
+        currentPage: 1,
+        total: 1,
+        pageSize: 9
       },
     };
   },
   methods: {
+    pagechange(value) {
+      axios.get(`examination/question/list?currentPage=${value}&pageSize=${this.config.pageSize}`)
+      .then(response => {
+        this.tableData = response.data['rows']
+        this.config.total = response.data['totalCount']
+      })
+    },
+
     // 确认提交处理函数，
     confirm() {},
     // 添加题目
@@ -154,9 +164,10 @@ export default {
     changePage() {},
   },
   mounted() {
-    axios.get('examination/question/list')
+    axios.get(`examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
     .then(response => {
-      this.tableData = response.data
+      this.tableData = response.data['rows']
+      this.config.total = response.data['totalCount']
     })
     .catch(err => {
       console.log(err)
