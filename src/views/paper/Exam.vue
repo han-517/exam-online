@@ -18,7 +18,7 @@
     <div class="table">
       <el-table :data="tableData" height="90%" border stripe>
         <el-table-column prop="name" label="考试名称"> </el-table-column>
-        <el-table-column prop="user" label="考试人"> </el-table-column>
+        <!-- <el-table-column prop="user" label="考试人"> </el-table-column> -->
         <el-table-column prop="singleNum" label="单选题数量"> </el-table-column>
         <el-table-column prop="mulNum" label="多选题数量"> </el-table-column>
         <el-table-column prop="judgeNum" label="判断题数量"> </el-table-column>

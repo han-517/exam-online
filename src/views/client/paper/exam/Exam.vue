@@ -143,7 +143,7 @@ export default {
   mounted() {
     axios
       .get(
-        `examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}&userId=${this.$store.state.id}`
+        `examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`
       )
       .then((response) => {
         this.tableData = response.data["rows"];
