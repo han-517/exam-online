@@ -5,15 +5,8 @@
       <el-form>
         <div class="register-box">
           <el-input
-            class="userid"
-            placeholder="请输入账号"
-            v-model="Form.id"
-            clearable
-          >
-          </el-input>
-          <el-input
             class="username"
-            placeholder="请输入用户名"
+            placeholder="请输入姓名"
             v-model="Form.username"
             clearable
           >
@@ -32,6 +25,18 @@
             show-password
           >
           </el-input>
+          <el-select v-model="Form.gender" placeholder="请选择性别" style="display:block; width:60%; margin: 8px auto;">
+            <el-option
+              key="1"
+              label="男"
+              value="男">
+            </el-option>
+            <el-option
+              key="2"
+              label="女"
+              value="女">
+            </el-option>
+          </el-select>
           <el-input
             class="email"
             placeholder="请输入邮箱"
@@ -42,6 +47,7 @@
         </div>
       </el-form>
       <el-button class="registerbtn" type="primary" plain round
+        @click="registerbtn"
         >注册
       </el-button>
     </div>
@@ -49,7 +55,8 @@
 </template>
 
 <script>
-const axios = require("axios");
+import axios from "axios";
+import { Loading } from 'element-ui';
 export default {
   name: "Register",
   data() {
@@ -58,13 +65,79 @@ export default {
       majors: [],
       teachers: [],
       Form: {
-        id: "",
+        username: "",
         password: "",
         email: "",
+        gender: ""
       },
       passwordVertify: "",
     };
   },
+  methods: {
+    registerbtn() {
+      if(this.Form.username === '') {
+        this.$notify.error({
+          title: '注册失败',
+          message: '姓名不能为空'
+        });
+      }
+      else if(this.Form.password === '' || this.passwordVertify === '' ) {
+        this.$notify.error({
+          title: '注册失败',
+          message: '密码不能为空'
+        });
+      }
+      else if(this.Form.gender === '') {
+        this.$notify.error({
+          title: '注册失败',
+          message: '性别不能为空'
+        });
+      }
+      else if(this.Form.email === '') {
+        this.$notify.error({
+          title: '注册失败',
+          message: '邮箱不能为空'
+        });
+      }
+      else if(this.Form.password !== this.passwordVertify) {
+        this.$notify.error({
+          title: '注册失败',
+          message: '请保证两次输入的密码一致'
+        });
+      }
+      else {
+        let load = Loading.service({
+          text: "正在注册中，请稍等..."
+        })
+        axios.get(`examination/register?name=${this.Form.username}&gender=${this.Form.gender}&password=${this.Form.password}&email=${this.Form.email}`)
+        .then(response => {
+          if(response.data['isSuccess']) {
+            this.$store.commit("LOGIN", response.data['currentUserId'])
+            this.$notify({
+              title: '注册成功',
+              type: 'success'
+            })
+            setTimeout(() => 
+              this.$router.push({ name: "uhome" })
+              , 1000)
+          }
+          else {
+            this.$notify.error({
+            title: '注册失败',
+            })
+          }
+        })
+        .catch(err => {
+          this.$notify.error({
+            title: '注册失败',
+            message: err
+          })
+        })
+      }
+      
+    }
+  }
+
 };
 </script>
 
