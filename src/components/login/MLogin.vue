@@ -77,12 +77,12 @@ export default {
       else{
         axios
         .get(
-          `examination/studentLoginServlet?vertify=${this.loginForm.checkcode}&user=${this.loginForm.user}&password=${this.loginForm.password}`
+          `examination/login/admin?checkcode=${this.loginForm.checkcode}&teacherId=${this.loginForm.user}&password=${this.loginForm.password}`
         )
-        .then(async(response) => {
-          await this.$store.commit("LOGIN", this.loginForm.user)
+        .then((response) => {
           load.close()
           if(response.data['isSuccess']){
+            this.$store.commit("LOGIN", this.loginForm.user)
             this.$notify({
               title: '登录成功',
               type: 'success'
@@ -93,13 +93,18 @@ export default {
           }
           else{
             this.$notify.error({
-            title: '登录失败',
-            message: response.data['errReason']
-        });
+              title: '登录失败',
+              message: response.data['errorInfo']
+            });
           }
         })
         .catch((error) => {
-          console.log(error);
+          load.close()
+          this.$notify.error({
+            title: '登录失败',
+            message: error
+          });
+          // console.log(error);
         });
       }
     },
