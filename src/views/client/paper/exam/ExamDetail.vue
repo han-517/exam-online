@@ -84,7 +84,7 @@
             v-model="sub.examineAnswer"
           ></el-input>
 
-          <div v-if="type === 2" class="subject-remark">
+          <div class="subject-remark">
             <div class="item">
               <span class="title">正确答案：</span>
               <!-- <span>{{ converAnswerStr(sub.correctAnswer) }}</span> -->
@@ -94,17 +94,9 @@
       </div>
     </div>
 
-    <div class="paper-footer">
-      <el-button
-        type="success"
-        v-if="type === 1"
-        @click.native="btnClick('handPaper')"
-        >交卷</el-button
-      >
-      <el-button type="success" v-if="type === 2" @click="onCancel"
-        >确定</el-button
-      >
-    </div>
+    <!-- <div class="paper-footer">
+      <el-button type="success" @click="onCancel">返回考试列表</el-button>
+    </div> -->
   </div>
 </template>
 
@@ -133,28 +125,13 @@ export default {
   data() {
     return {
       //组装后数据集
-      disabledAnswer: false,
+      disabledAnswer: true,
       convertDatas: [],
       paperId: "",
       origindata: {},
     };
   },
   methods: {
-    // 交卷
-    btnClick() {
-      // this.$emit("PaperHand", this.tempDataSource);
-
-      // 题目正确判断
-      // 根据convertDatas里每一个题目的answerId与examineAnswer的值比较即可，多选题则把examineAnswer里的值求和比较
-
-      // 去试卷页面
-      this.type = 2;
-      this.disabledAnswer = true;
-      this.$router.push({
-        name: "examCard",
-      });
-    },
-
     onCancel() {
       this.$router.push({ name: "uexam" });
     },
@@ -163,7 +140,7 @@ export default {
     this.paperId = this.$route.params.paperId;
     // this.paperId = 23
     let load = Loading.service({
-      text: "正在生成试卷中，请稍等...",
+      text: "正在加载，请稍等...",
     });
     axios
       .get(`examination/paper/search?paperId=${this.paperId}`)

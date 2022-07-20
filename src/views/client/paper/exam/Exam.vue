@@ -26,8 +26,22 @@
         <el-table-column prop="singleNum" label="单选题数量"> </el-table-column>
         <el-table-column prop="mulNum" label="多选题数量"> </el-table-column>
         <el-table-column prop="judgeNum" label="判断题数量"> </el-table-column>
+        <el-table-column prop="brieflyNum" label="简答题数量">
+        </el-table-column>
+        <el-table-column prop="score" label="考试情况"> </el-table-column>
         <el-table-column prop="createDate" label="创建时间"> </el-table-column>
-        <!-- <el-table-column prop="score" label="分数"> </el-table-column> -->
+
+        <!-- 还没有写删除 -->
+        <el-table-column label="操作" width="150px">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="detail()">
+              详 情
+            </el-button>
+            <el-button size="mini" type="danger" @click="delBank(scope.row)">
+              删 除
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <el-pagination
@@ -36,13 +50,14 @@
       :page-size="config.pageSize"
       :page-count="config.currentPage"
       :total="config.total"
-      @current-change="pagechange">
+      @current-change="pagechange"
+    >
     </el-pagination>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   name: "qusetion",
   data() {
@@ -64,17 +79,20 @@ export default {
       config: {
         currentPage: 1,
         pageSize: 9,
-        total: 0
-      }
+        total: 0,
+      },
     };
   },
   methods: {
     pagechange(value) {
-      axios.get(`examination/paper/curPagePaper?currentPage=${value}&pageSize=${this.config.pageSize}`)
-      .then(response => {
-        this.tableData = response.data['rows']
-        this.config.total = response.data['totalCount']
-      })
+      axios
+        .get(
+          `examination/paper/curPagePaper?currentPage=${value}&pageSize=${this.config.pageSize}`
+        )
+        .then((response) => {
+          this.tableData = response.data["rows"];
+          this.config.total = response.data["totalCount"];
+        });
     },
     // 确认提交处理函数，
     confirm() {},
@@ -92,19 +110,27 @@ export default {
       this.$store.commit("selectMenu", item);
     },
 
+    // 考试信息详情
+    detail() {
+      this.$router.push({ path: "/client/paper/exam/detail" });
+    },
+
     // 搜索用户
     getList() {},
   },
   mounted() {
-    axios.get(`examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
-    .then(response => {
-      this.tableData = response.data['rows']
-      this.config.total = response.data['totalCount']
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+    axios
+      .get(
+        `examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`
+      )
+      .then((response) => {
+        this.tableData = response.data["rows"];
+        this.config.total = response.data["totalCount"];
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
 

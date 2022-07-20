@@ -24,6 +24,7 @@ import addExam from "@/views/client/paper/exam/AddExam";
 import examCard from "@/views/client/paper/exam/ExamCard";
 import uMyInfo from "@/views/client/info/MyInfo";
 import uPassword from "@/views/client/info/Password";
+import examDetail from "@/views/client/paper/exam/ExamDetail";
 
 export default new VueRouter({
   mode: "hash",
@@ -78,6 +79,10 @@ export default new VueRouter({
               path: "exam",
               name: "exam",
               component: Exam,
+            },
+            {
+              path: "exam/detail",
+              component: examDetail,
             },
           ],
         },
@@ -148,6 +153,10 @@ export default new VueRouter({
               path: "exam",
               name: "uexam",
               component: uExam,
+            },
+            {
+              path: "exam/detail",
+              component: examDetail,
             },
             {
               path: "addexam",

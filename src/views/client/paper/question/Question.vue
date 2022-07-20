@@ -2,11 +2,6 @@
   <div class="manage">
     <!-- 对话框 -->
     <div class="manage-header">
-      <el-button type="primary" @click="addQues(item)">
-        <i class="el-icon-plus"></i>
-        <span>新增</span>
-      </el-button>
-
       <el-form :inline="true">
         <el-form-item>
           <el-input placeholder="搜索" v-model="searchForm.keyword"> </el-input>
@@ -31,7 +26,8 @@
             <el-button
               size="mini"
               type="primary"
-              @click="detailQues(item, scope.row)">
+              @click="detailQues(item, scope.row)"
+            >
               详 情
             </el-button>
           </template>
@@ -44,7 +40,8 @@
       :page-size="config.pageSize"
       :page-count="config.currentPage"
       :total="config.total"
-      @current-change="pagechange">
+      @current-change="pagechange"
+    >
     </el-pagination>
   </div>
 </template>
@@ -80,24 +77,25 @@ export default {
         keyword: "",
       },
       // 所有题库信息表单，这里是写死的，还需要从数据库中读取
-      tableData: [
-        {},{},{},{},{},{},{},{},{}
-      ],
+      tableData: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       // 分页有关参数，不用管
       config: {
         currentPage: 1,
         total: 1,
-        pageSize: 9
+        pageSize: 9,
       },
     };
   },
   methods: {
     pagechange(value) {
-      axios.get(`examination/question/list?currentPage=${value}&pageSize=${this.config.pageSize}`)
-      .then(response => {
-        this.tableData = response.data['rows']
-        this.config.total = response.data['totalCount']
-      })
+      axios
+        .get(
+          `examination/question/list?currentPage=${value}&pageSize=${this.config.pageSize}`
+        )
+        .then((response) => {
+          this.tableData = response.data["rows"];
+          this.config.total = response.data["totalCount"];
+        });
     },
 
     // 确认提交处理函数，
@@ -132,10 +130,10 @@ export default {
             optionA: row.optionA,
             optionB: row.optionB,
             optionC: row.optionC,
-            optionD: row.optionD
-          }}}
-      
-      );
+            optionD: row.optionD,
+          },
+        },
+      });
 
       item = {
         path: "/client/paper/question/detail",
@@ -148,14 +146,15 @@ export default {
     },
     // 删除题目
     delQues(row) {
-      axios.get(`examination/question/delete?id=${row.id}`)
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      location.reload()
+      axios
+        .get(`examination/question/delete?id=${row.id}`)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      location.reload();
     },
 
     // 搜索用户
@@ -164,15 +163,18 @@ export default {
     changePage() {},
   },
   mounted() {
-    axios.get(`examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
-    .then(response => {
-      this.tableData = response.data['rows']
-      this.config.total = response.data['totalCount']
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+    axios
+      .get(
+        `examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`
+      )
+      .then((response) => {
+        this.tableData = response.data["rows"];
+        this.config.total = response.data["totalCount"];
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
 
