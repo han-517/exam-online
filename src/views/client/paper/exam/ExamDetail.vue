@@ -67,10 +67,10 @@
               :disabled="disabledAnswer"
               :label="16"
               class="answer-radio"
-              >A.对</el-radio
+              >A. 对</el-radio
             >
             <el-radio :disabled="disabledAnswer" :label="0" class="answer-radio"
-              >B.错</el-radio
+              >B. 错</el-radio
             >
           </el-radio-group>
 
@@ -81,12 +81,12 @@
             style="width: 600px; font-size: 15px"
             rows="3"
             placeholder="请输入答案"
-            v-model="sub.examineAnswer"
+            v-model="sub.answers"
           ></el-input>
 
-          <div class="subject-remark">
+          <div class="subject-remark" v-if="item.type !== 3">
             <div class="item">
-              <span class="title">正确答案：</span>
+              <span class="title">正确答案：{{sub.result}}</span>
               <!-- <span>{{ converAnswerStr(sub.correctAnswer) }}</span> -->
             </div>
           </div>
@@ -157,6 +157,11 @@ export default {
           childs: [],
         };
         response.data["单选题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId & 1) temp += 'A'
+          if(el.answerId & 2) temp += 'B'
+          if(el.answerId & 4) temp += 'C'
+          if(el.answerId & 8) temp += 'D'
           res.childs.push({
             no: index + 1,
             context: el.content,
@@ -168,6 +173,7 @@ export default {
             ],
             answerId: el.answerId,
             examineAnswer: undefined,
+            result: temp
           });
         });
         this.convertDatas.push(res);
@@ -181,6 +187,11 @@ export default {
           childs: [],
         };
         response.data["多选题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId & 1) temp += 'A'
+          if(el.answerId & 2) temp += 'B'
+          if(el.answerId & 4) temp += 'C'
+          if(el.answerId & 8) temp += 'D'
           res.childs.push({
             no: index + 1,
             context: el.content,
@@ -192,6 +203,7 @@ export default {
             ],
             answerId: el.answerId,
             examineAnswer: [],
+            result: temp
           });
         });
         this.convertDatas.push(res);
@@ -205,11 +217,15 @@ export default {
           childs: [],
         };
         response.data["对错题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId === 0) temp = '错'
+          else if(el.answerId === 16) temp = '对'
           res.childs.push({
             no: index + 1,
             context: el.content,
             answerId: el.answerId,
             examineAnswer: undefined,
+            result: temp
           });
         });
         this.convertDatas.push(res);

@@ -118,12 +118,12 @@ export default {
           params: {
             paperId: response.data['paperId']
           }
-        })}, 1000)
+        })}, 500)
       })
       .catch(err => {
         this.$notify.error({
           title: '生成失败',
-          message: '请填写正确信息重试'
+          message: '题库数量不足，请重试'
         })
       })
       
@@ -135,6 +135,7 @@ export default {
     },
   },
   mounted() {
+    this.userid = this.$store.state.id
     axios.get("examination/getAllMajorServlet")
     .then((response) => {
       this.MajorList = response.data;

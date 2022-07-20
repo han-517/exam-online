@@ -2,13 +2,13 @@
   <div>
     <el-form status-icon label-width="100px">
       <el-form-item label="邮箱账号">
-        <el-input>{{ myInfo.id }}</el-input>
+        <el-input v-model="myInfo.email" clearable></el-input>
       </el-form-item>
       <el-form-item label="姓名">
-        <el-input>{{ myInfo.name }}</el-input>
+        <el-input v-model="myInfo.name" clearable></el-input>
       </el-form-item>
       <el-form-item label="性别">
-        <el-input>{{ myInfo.gender }}</el-input>
+        <el-input v-model="myInfo.gender" clearable></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -19,14 +19,16 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   data() {
     return {
       // 个人信息，更多后面在添加
       myInfo: {
         id: "",
+        email: "",
         name: "",
-        gender: "",
+        gender: ""
       },
       item: {
         path: "/info/edit",
@@ -37,14 +39,25 @@ export default {
   },
   methods: {
     editMyInfo(item) {
-      console.log(item);
-      this.$router.push({
-        name: item.name,
-      });
-
-      this.$store.commit("selectMenu", item);
+      axios.get(`examination/update/user?studentId=${this.myInfo.id}&name=${this.myInfo.name}&email=${this.myInfo.email}&gender=${this.myInfo.gender}`)
+      .then(response => {
+        this.$notify({
+          title: '修改成功',
+          type: 'success'
+        });
+      })
+      .catch(err => {
+        this.$notify.error({
+          title: '修改失败',
+          message: err
+        });
+      })
     },
   },
+  mounted() {
+    // this.myInfo.id = this.$store.state.id
+    this.myInfo.id = 2
+  }
 };
 </script>
 

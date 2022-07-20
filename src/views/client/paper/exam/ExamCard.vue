@@ -52,7 +52,7 @@
               >{{ o.answer }}</el-radio
             >
           </el-radio-group>
-          <el-checkbox-group v-if="item.type === 1" v-model="sub.examineAnswer">
+          <el-checkbox-group v-if="item.type === 1" v-model="sub.options">
             <el-checkbox
               :disabled="disabledAnswer"
               v-for="(o, index) in sub.answers"
@@ -84,9 +84,9 @@
             v-model="sub.examineAnswer"
           ></el-input>
 
-          <div v-if="type === 2" class="subject-remark">
+          <div v-if="type === 2 && sub.examineAnswer !== sub.answerId" class="subject-remark">
             <div class="item">
-              <span class="title">正确答案：</span>
+              <span class="title"><p style="color: green;">正确答案：</p>{{sub.result}}</span>
               <!-- <span>{{ converAnswerStr(sub.correctAnswer) }}</span> -->
             </div>
           </div>
@@ -101,7 +101,7 @@
         @click.native="btnClick('handPaper')"
         >交卷</el-button
       >
-      <el-button type="success" v-if="type === 2" @click="onCancel"
+      <el-button type="success" v-if="type === 2" @click="Confirm"
         >确定</el-button
       >
     </div>
@@ -142,21 +142,43 @@ export default {
   methods: {
     // 交卷
     btnClick() {
-      // this.$emit("PaperHand", this.tempDataSource);
-
+      // 根据convertDatas里每一个题目的answerId与examineAnswer的值比较即可，多选题则把options里的值求和比较
+      this.convertDatas[1].childs.forEach(el => {
+        el.options.forEach(elment => {
+          el.examineAnswer += elment
+        })
+      })
       // 题目正确判断
-      // 根据convertDatas里每一个题目的answerId与examineAnswer的值比较即可，多选题则把examineAnswer里的值求和比较
-
-      // 去试卷页面
       this.type = 2;
       this.disabledAnswer = true;
-      this.$router.push({
-        name: "examCard",
-      });
+
+
+      // this.$router.push({
+      //   name: "examCard",
+      // });
     },
 
-    onCancel() {
-      this.$router.push({ name: "uexam" });
+    Confirm() {
+      var score = ''
+      var qtrue = 0
+      var qfalse = 0
+      this.convertDatas.forEach(el1 => {
+        el1.childs.forEach(el2 => {
+          if(el2.answerId === el2.examineAnswer) { qtrue++ }
+          else { qfalse++ }
+        })
+      })
+      score = score + qtrue + '/' + (qtrue + qfalse)
+      axios.get(`examination/paper/assign?paperId=${this.paperId}&score=${score}`)
+      .then(response => {
+        this.$notify({
+          title: '提交成功',
+          message: '即将跳转到查看页面',
+          type: 'success'
+        })
+        this.$router.push({ name: "uexam" });
+      })
+      
     },
   },
   mounted() {
@@ -180,6 +202,11 @@ export default {
           childs: [],
         };
         response.data["单选题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId & 1) temp += 'A'
+          if(el.answerId & 2) temp += 'B'
+          if(el.answerId & 4) temp += 'C'
+          if(el.answerId & 8) temp += 'D'
           res.childs.push({
             no: index + 1,
             context: el.content,
@@ -191,6 +218,7 @@ export default {
             ],
             answerId: el.answerId,
             examineAnswer: undefined,
+            result: temp
           });
         });
         this.convertDatas.push(res);
@@ -204,6 +232,11 @@ export default {
           childs: [],
         };
         response.data["多选题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId & 1) temp += 'A'
+          if(el.answerId & 2) temp += 'B'
+          if(el.answerId & 4) temp += 'C'
+          if(el.answerId & 8) temp += 'D'
           res.childs.push({
             no: index + 1,
             context: el.content,
@@ -214,7 +247,9 @@ export default {
               { answer: `D. ${el.optionD}` },
             ],
             answerId: el.answerId,
-            examineAnswer: [],
+            examineAnswer: 0,
+            options: [],
+            result: temp
           });
         });
         this.convertDatas.push(res);
@@ -228,11 +263,15 @@ export default {
           childs: [],
         };
         response.data["对错题"].forEach((el, index) => {
+          var temp = ''
+          if(el.answerId === 0) temp = '错'
+          else if(el.answerId === 16) temp = '对'
           res.childs.push({
             no: index + 1,
             context: el.content,
             answerId: el.answerId,
             examineAnswer: undefined,
+            result: temp
           });
         });
         this.convertDatas.push(res);
@@ -249,8 +288,9 @@ export default {
           res.childs.push({
             no: index + 1,
             context: el.content,
-            answers: el.optionA,
+            result: el.optionA,
             examineAnswer: "",
+            answerId: el.optionA
           });
         });
         this.convertDatas.push(res);

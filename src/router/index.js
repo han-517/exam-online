@@ -81,6 +81,7 @@ export default new VueRouter({
               component: Exam,
             },
             {
+              name: "examdetail",
               path: "exam/detail",
               component: examDetail,
             },
@@ -156,6 +157,7 @@ export default new VueRouter({
             },
             {
               path: "exam/detail",
+              name: "clientdetail",
               component: examDetail,
             },
             {

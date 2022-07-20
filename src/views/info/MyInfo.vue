@@ -22,7 +22,7 @@ export default {
     return {
       // 个人信息，更多后面在添加
       myInfo: {
-        id: "",
+        id: 123,
         name: "",
         gender: "",
       },
@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     editMyInfo(item) {
-      // console.log(item);
       axios.get(`examination/update/admin?teacherId=${this.myInfo.id}&name=${this.myInfo.name}`)
       .then(response => {
         this.$notify({
@@ -45,14 +44,14 @@ export default {
       })
       .catch(err => {
         this.$notify.error({
-          title: '修改失败'
+          title: '修改失败',
+          message: err
         });
       })
     },
   },
   mounted(){
     this.myInfo.id = this.$store.state.id
-
   }
 };
 </script>

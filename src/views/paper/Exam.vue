@@ -30,10 +30,10 @@
         <!-- 还没有写删除 -->
         <el-table-column label="操作" width="150px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" @click="detail()">
+            <el-button size="mini" type="primary" @click="detail(scope.row)">
               详 情
             </el-button>
-            <el-button size="mini" type="danger" @click="delBank(scope.row)">
+            <el-button size="mini" type="danger" @click="delExam(scope.row)">
               删 除
             </el-button>
           </template>
@@ -95,8 +95,29 @@ export default {
     // 开始添加考试
 
     // 考试信息详情
-    detail() {
-      this.$router.push({ path: "/paper/exam/detail" });
+    detail(row) {
+      this.$router.push({ 
+        name: "examdetail",
+        params: {
+          paperId: row.paperId
+        } 
+      });
+    },
+    delExam(row) {
+      axios.get(`examination/paper/delete?paperId=${row.paperId}`)
+      .then(response => {
+        this.$notify({
+          title: '删除成功',
+          type: 'success'
+        })
+      })
+      .catch(err => {
+        this.$notify.error({
+          title: '删除失败',
+          message: '请稍后重试'
+        })
+      })
+      location.reload()
     },
     // 搜索用户
     getList() {},

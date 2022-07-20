@@ -64,17 +64,16 @@ export default {
       vcode.src = "examination/checkCodeServlet?time=" + new Date().getTime();
     },
     mLogin() {
-      let load = Loading.service({
-        text: "正在登录中，请稍等..."
-      })
       if(this.loginForm.user === '' || this.loginForm.password === ''){
         this.$notify.error({
           title: '登录失败',
           message: '账号和密码不能为空！'
         });
-        load.close()
       }
       else{
+        let load = Loading.service({
+          text: "正在登录中，请稍等..."
+        })
         axios
         .get(
           `examination/login/admin?checkcode=${this.loginForm.checkcode}&teacherId=${this.loginForm.user}&password=${this.loginForm.password}`

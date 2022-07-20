@@ -73,9 +73,9 @@ export default {
     ulogin() {
       if(this.loginForm.user === '' || this.loginForm.password === ''){
         this.$notify.error({
-              title: '登录失败',
-              message: '账号和密码不能为空！'
-            });
+          title: '登录失败',
+          message: '账号和密码不能为空！'
+        });
       }
       else{
         let load = Loading.service({
@@ -106,11 +106,12 @@ export default {
         })
         .catch((error) => {
           // console.log(error);
+          load.close()
           this.$notify.error({
             title: '登录失败',
             message: error
           });
-          load.close()
+          
         });
       }
       // this.$router.push({ name: "uhome" }); // 测试

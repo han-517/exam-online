@@ -100,12 +100,19 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // 可以提交，这里只是打印信息
-          // 具体提交代码 靠 炅函
-          alert("submit!");
+          axios.get(`examination/update/admin?studentId=${this.$store.state.id}&password=${this.ruleForm.pass}`)
+          .then(response => {
+            this.$notify({
+              title: '修改成功',
+              type: 'success'
+            });
+          })
         } else {
           // 不符合提交要求
-          console.log("error submit!!");
+          this.$notify.error({
+            title: '修改失败',
+            message: '请输入正确的信息'
+          });
           return false;
         }
       });
