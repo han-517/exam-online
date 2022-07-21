@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-form-item label="账号">
+        <el-input v-model="myInfo.id"></el-input>
+      </el-form-item>
     <el-form status-icon label-width="100px">
       <el-form-item label="姓名">
         <el-input v-model="myInfo.name"></el-input>
@@ -22,7 +25,7 @@ export default {
     return {
       // 个人信息，更多后面在添加
       myInfo: {
-        id: 123,
+        id: '123',
         name: "",
         gender: "",
       },

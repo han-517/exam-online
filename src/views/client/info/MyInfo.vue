@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-form status-icon label-width="100px">
+      <el-form-item label="账号">
+        <el-input v-model="myInfo.id" clearable></el-input>
+      </el-form-item>
       <el-form-item label="邮箱账号">
         <el-input v-model="myInfo.email" clearable></el-input>
       </el-form-item>
@@ -25,7 +28,7 @@ export default {
     return {
       // 个人信息，更多后面在添加
       myInfo: {
-        id: "",
+        id: "1",
         email: "",
         name: "",
         gender: ""
@@ -57,7 +60,7 @@ export default {
   mounted() {
     this.myInfo.id = this.$store.state.id
     
-    axios.get('examination/info/admin')
+    axios.get('examination/info/user')
     .then(response => {
       this.myInfo.name = response.data['name']
       this.myInfo.gender = response.data['gender']
