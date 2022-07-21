@@ -31,8 +31,8 @@ const state = {
   isCollapse: false,
   tabList: [
     {
-      path: "/home",
-      name: "home",
+      path: "/client/home",
+      name: "uhome",
       label: "首页",
       icon: "home",
     },
