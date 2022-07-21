@@ -30,7 +30,7 @@
             <router-link v-if="isStudent == false" :to="{ name: 'myinfo' }">
               <el-dropdown-item>个人中心</el-dropdown-item>
             </router-link>
-            <router-link v-else :to="{ name: 'myinfo' }">
+            <router-link v-else :to="{ name: 'umyinfo' }">
               <el-dropdown-item>个人中心</el-dropdown-item>
             </router-link>
           </template>
