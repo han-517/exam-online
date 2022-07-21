@@ -50,13 +50,8 @@ export default {
         return callback(new Error("旧密码不能为空"));
       }
       setTimeout(() => {
-        /* 
-         判断旧密码是否正确
-        
-        
-          我不会
-        */
-      }, 1000);
+        callback()
+      }, 500);
     };
 
     //新密码不能为空，
