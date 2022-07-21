@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-form-item label="账号">
-        <el-input v-model="myInfo.id"></el-input>
+        <el-input v-model="myInfo.id" disabled></el-input>
       </el-form-item>
     <el-form status-icon label-width="100px">
       <el-form-item label="姓名">
-        <el-input v-model="myInfo.name"></el-input>
+        <el-input v-model="myInfo.name" clearable=""></el-input>
       </el-form-item>
       <!-- <el-form-item label="性别">
         <el-input v-model="myInfo.gender"></el-input>
