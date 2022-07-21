@@ -284,10 +284,18 @@ export default {
       }
       axios.get(`examination/question/update?id=${this.ruleForm.id}&content=${this.ruleForm.content}&optionA=${this.ruleForm.optionA}&optionB=${this.ruleForm.optionB}&optionC=${this.ruleForm.optionC}&optionD=${this.ruleForm.optionD}&answerId=${this.ruleForm.answerId}&bankId=${this.ruleForm.bankId}&majorId=${this.ruleForm.majorId}&remark=${this.ruleForm.remark}&type=${this.ruleForm.type}`)
       .then(response => {
-        console.log(response)
+        // console.log(response)
+        this.$notify({
+          title: '更新成功',
+          type: 'success'
+        })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
+        this.$notify.error({
+          title: '更新失败',
+          message: err
+        })
       })
       this.onCancel()
     },

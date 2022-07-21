@@ -86,18 +86,19 @@ export default {
           `examination/login/user?checkcode=${this.loginForm.checkcode}&studentId=${this.loginForm.user}&password=${this.loginForm.password}`
         )
         .then(response => {
-          load.close()
           if(response.data['isSuccess']){
             this.$store.commit("LOGIN", this.loginForm.user)
             this.$notify({
               title: '登录成功',
               type: 'success'
             });
-            setTimeout(() => 
+            setTimeout(() => {
+              load.close()
               this.$router.push({ name: "uhome" })
-              , 1000)
+            }, 1000)
           }
           else{
+            load.close()
             this.$notify.error({
               title: '登录失败',
               message: response.data['errorInfo']
@@ -105,7 +106,6 @@ export default {
           }
         })
         .catch((error) => {
-          // console.log(error);
           load.close()
           this.$notify.error({
             title: '登录失败',
@@ -114,7 +114,6 @@ export default {
           
         });
       }
-      // this.$router.push({ name: "uhome" }); // 测试
     },
     register() {
       this.$router.push({ name: "register" });

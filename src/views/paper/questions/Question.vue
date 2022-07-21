@@ -151,27 +151,39 @@ export default {
     delQues(row) {
       axios.get(`examination/question/delete?id=${row.id}`)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
+        this.$notify({
+          title: '删除成功',
+          type: 'success'
+        })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
+        this.$notify.error({
+          title: '删除失败',
+          message: '请稍后重试'
+        })
       })
-      location.reload()
+      this.QuestionList()
     },
     // 搜索用户
     getList() {},
     // 分页操作
     changePage() {},
+
+    QuestionList() {
+      axios.get(`examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
+      .then(response => {
+        this.tableData = response.data['rows']
+        this.config.total = response.data['totalCount']
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   },
   mounted() {
-    axios.get(`examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`)
-    .then(response => {
-      this.tableData = response.data['rows']
-      this.config.total = response.data['totalCount']
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    this.QuestionList()
   }
 };
 </script>

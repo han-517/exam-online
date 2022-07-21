@@ -113,7 +113,6 @@ export default {
       }
       this.isShow = false
       this.BankList()
-      location.reload()
     },
     addBank() {
       this.isShow = true;
@@ -150,7 +149,7 @@ export default {
       .catch(err => {
         console.log(err)
       })
-      location.reload()
+      this.BankList()
     },
     // 搜索用户
     getList() {},

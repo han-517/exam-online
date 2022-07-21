@@ -79,18 +79,20 @@ export default {
           `examination/login/admin?checkcode=${this.loginForm.checkcode}&teacherId=${this.loginForm.user}&password=${this.loginForm.password}`
         )
         .then((response) => {
-          load.close()
+          
           if(response.data['isSuccess']){
             this.$store.commit("LOGIN", this.loginForm.user)
             this.$notify({
               title: '登录成功',
               type: 'success'
             });
-            setTimeout(() => 
+            setTimeout(() => {
+              load.close()
               this.$router.push({ name: "home" })
-              , 1000)
+            }, 1000)
           }
           else{
+            load.close()
             this.$notify.error({
               title: '登录失败',
               message: response.data['errorInfo']
@@ -103,7 +105,6 @@ export default {
             title: '登录失败',
             message: error
           });
-          // console.log(error);
         });
       }
     },

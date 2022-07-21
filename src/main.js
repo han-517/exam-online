@@ -15,6 +15,8 @@ import "./assets/less/index.less";
 // axios
 import http from "axios";
 
+import '@/router/permission'
+
 Vue.config.productionTip = false;
 
 //使用ElementUI

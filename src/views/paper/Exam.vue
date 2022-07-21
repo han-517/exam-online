@@ -114,16 +114,16 @@ export default {
       .catch(err => {
         this.$notify.error({
           title: '删除失败',
-          message: '请稍后重试'
+          message: err
         })
       })
-      location.reload()
+      this.ExamList()
     },
     // 搜索用户
     getList() {},
-  },
-  mounted() {
-    axios
+
+    ExamList() {
+      axios
       .get(
         `examination/paper/curPagePaper?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`
       )
@@ -134,6 +134,10 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    }
+  },
+  mounted() {
+    this.ExamList()
   },
 };
 </script>

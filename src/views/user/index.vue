@@ -135,23 +135,40 @@ export default {
       if (this.operateType === "edit") {
         axios.get(`examination/updateStuServlet?studentId=${this.operateForm.id}&name=${this.operateForm.name}&gender=${this.operateForm.gender}&email=${this.operateForm.email}`)
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
+          this.$notify({
+            title: '更新成功',
+            type: 'success'
+          })
+          this.StudentList()
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
+          this.$notify.error({
+            title: '更新失败',
+            message: err
+          })
         })
       } else {
-        axios.get(`examination/addStuServlet?name=${this.operateForm.name}&gender=${this.operateForm.gender}&email=${this.operateForm.email}`)
+        axios.get(`examination/register?name=${this.operateForm.name}&gender=${this.operateForm.gender}&email=${this.operateForm.email}`)
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
+          this.$notify({
+            title: '添加成功',
+            type: 'success'
+          })
+          this.StudentList()
         })
         .catch(err => {
-          console.log(err)
+          // console.log(err)
+          this.$notify.error({
+            title: '添加失败',
+            message: err
+          })
         })
       }
-      this.StudentList()
+
       this.isShow = false
-      location.reload()
     },
     addUser() {
       this.isShow = true
@@ -177,12 +194,22 @@ export default {
     delUser(row) {
       axios.get(`examination/deleteStuServlet?studentId=${row.studentId}`)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
+        this.$notify({
+          title: '删除成功',
+          type: 'success'
+        })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
+        this.$notify.error({
+          title: '删除失败',
+          message: err
+        })
       })
-      location.reload()
+      .finally(() => {
+        this.StudentList()
+      })
     },
     getList() {},
     StudentList() {

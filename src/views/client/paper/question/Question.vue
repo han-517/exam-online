@@ -154,16 +154,16 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      location.reload();
+      this.QuestionList()
     },
 
     // 搜索用户
     getList() {},
     // 分页操作
     changePage() {},
-  },
-  mounted() {
-    axios
+
+    QuestionList() {
+      axios
       .get(
         `examination/question/list?currentPage=${this.config.currentPage}&pageSize=${this.config.pageSize}`
       )
@@ -174,6 +174,10 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    }
+  },
+  mounted() {
+    this.QuestionList()
   },
 };
 </script>

@@ -117,24 +117,26 @@ export default {
               title: '注册成功',
               type: 'success'
             })
-            setTimeout(() => 
+            setTimeout(() => {
+              load.close()
               this.$router.push({ name: "uhome" })
-              , 1000)
+            }, 1000)
           }
           else {
+            load.close()
             this.$notify.error({
             title: '注册失败',
             })
           }
         })
         .catch(err => {
+          load.close()
           this.$notify.error({
             title: '注册失败',
             message: err
           })
         })
-      }
-      
+      } 
     }
   }
 
