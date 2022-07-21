@@ -1,72 +1,33 @@
-1. vue create vue-manage
+# 在线考试系统
 
-2. 安装element-ui：npm i element-ui -S
+> 厦门大学信息学院软件工程系 2022年Java程序实践课程 前端项目
+>
+> 2022.7.21
 
-   ```javascript
-   //main.js中全局引入
-   import ElementUI from 'element-ui';
-   import 'element-ui/lib/theme-chalk/index.css';
-   
-   Vue.use(ElementUI);
-   ```
+## 安装依赖
 
-   ```json
-   //按需引入
-   //借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的。首先，安装 babel-plugin-component：
-   //命令：npm install babel-plugin-component -D
-   
-   ```
+```
+使用以下两种方式之一安装项目依赖
+1. yarn install
+2. npm i
 
-   官网地址：https://element.eleme.cn/#/zh-CN/component/quickstart
+yarn serve or npm run serve 启动vue服务器调试
 
-3. 路由使用：yarn add vue-router 或 npm i vue-router@3.2.0
-
-   ```js
-   //引入路由
-   import router from './router'
-   ```
-
-4. 下载less和less-loader
-
-5. 下载vuex
-
-6. yarn add axios
-
-```js
-dataSource: {
-      type: Object,
-      default: () => {
-        return {
-          //试卷ID
-          paperId: "",
-          //试卷名称
-          paperName: "",
-          //题目集合
-          list: [
-            {
-              //题目类型 1.单选题 2.多选题 3.判断题
-              type: null,
-              //题号
-              no: null,
-              //题目
-              subject: "",
-              //答案集合
-              answers: [
-                {
-                  //答案序号
-                  no: "",
-                  //答案
-                  answer: "",
-                },
-              ],
-            },
-          ],
-        };
-      },
-    },
+yarn build or npm run build 打包项目文件
 ```
 
+## 项目介绍
+
+### 技术栈
+
+1. vue2.0
+2. vuex
+3. vue-router
+4. element-UI
+5. axios
+6. scss
+7. less
 
 
 
-
+可以在线答题判题的考试系统
