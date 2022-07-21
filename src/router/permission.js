@@ -6,7 +6,8 @@ const whiteList = ['/login', '/register']
 router.beforeEach((to, from, next) => {
     if(store.state.id !== ''){
         if(to.path === '/login') {
-            next({path: '/home'})
+            // next({path: '/home'})
+            next()
         }
         else {
             next()

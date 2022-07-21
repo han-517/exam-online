@@ -52,6 +52,14 @@ export default {
   },
   mounted(){
     this.myInfo.id = this.$store.state.id
+    
+    axios.get('examination/info/admin')
+    .then(response => {
+      this.myInfo.name = response.data['name']
+    })
+    .catch(err => {
+      console.log('err: ', err)
+    })
   }
 };
 </script>

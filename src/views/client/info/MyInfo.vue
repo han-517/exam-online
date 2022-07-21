@@ -55,8 +55,17 @@ export default {
     },
   },
   mounted() {
-    // this.myInfo.id = this.$store.state.id
-    this.myInfo.id = 2
+    this.myInfo.id = this.$store.state.id
+    
+    axios.get('examination/info/admin')
+    .then(response => {
+      this.myInfo.name = response.data['name']
+      this.myInfo.gender = response.data['gender']
+      this.myInfo.email = response.data['email']
+    })
+    .catch(err => {
+      console.log('err: ', err)
+    })
   }
 };
 </script>
